@@ -12,6 +12,7 @@ import eventBus from "../../utilities/event-bus";
 import TooltipPanel from "../TooltipPanel";
 import { LOCAL_STORAGE, TAB_LABELS } from "../../constants";
 import Setting from "../Setting";
+import { generateChartData } from "../../transformData";
 
 function BasicTabs() {
   const [value, setValue] = useState<string>("");
@@ -45,7 +46,10 @@ function BasicTabs() {
     );
 
     if (typeof localStorageDataChart !== "string") {
-      localStorage.setItem(LOCAL_STORAGE.CHART, JSON.stringify(mockData));
+      localStorage.setItem(
+        LOCAL_STORAGE.CHART,
+        JSON.stringify(generateChartData(mockData))
+      );
     }
     localStorageDataChart && setData(JSON.parse(localStorageDataChart));
 

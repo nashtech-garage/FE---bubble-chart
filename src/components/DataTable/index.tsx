@@ -8,6 +8,8 @@ import {
   GridValueSetterParams,
 } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
+import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import { randomId } from "@mui/x-data-grid-generator";
 import { HEADERNAME, LOCAL_STORAGE, NEW_ITEM } from "../../constants";
 import { DataChildType, DataTableProps, DataType } from "../../models";
@@ -15,6 +17,7 @@ import { CustomToolbar } from "./Toolbar";
 import { StyledDataGrid } from "./styles";
 import { defineColumns } from "./column";
 import { checkVal } from "../../utilities";
+import { generateChartData } from "../../transformData";
 
 export default function DataTable({ data, onUpdate }: DataTableProps) {
   const generateGridRows = useCallback((data: DataType[]) => {
@@ -55,7 +58,10 @@ export default function DataTable({ data, onUpdate }: DataTableProps) {
   const handleImport = useCallback(
     (data: DataType[]) => {
       setRows(generateGridRows(data));
-      localStorage.setItem(LOCAL_STORAGE.CHART, JSON.stringify(data));
+      localStorage.setItem(
+        LOCAL_STORAGE.CHART,
+        JSON.stringify(generateChartData(data))
+      );
       setIsUpdate(true);
     },
     [generateGridRows]
@@ -66,7 +72,23 @@ export default function DataTable({ data, onUpdate }: DataTableProps) {
     localStorage.removeItem(LOCAL_STORAGE.CHART);
     setIsUpdate(true);
   };
-
+  const handleHighLight = useCallback(
+    (params: GridRowParams) => () => {
+      setRows(() =>
+        rows.map((r: any) => {
+          if (r.id === params.id) {
+            return {
+              ...r,
+              highlight: !params.row.highlight,
+            };
+          }
+          return r;
+        })
+      );
+      setIsUpdate(true);
+    },
+    [rows]
+  );
   const actionsField = {
     field: "actions",
     type: "actions",
@@ -79,6 +101,13 @@ export default function DataTable({ data, onUpdate }: DataTableProps) {
         icon={<DeleteIcon />}
         onClick={deleteNode(params.id)}
         label="Delete"
+      />,
+      <GridActionsCellItem
+        icon={
+          params.row.highlight ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />
+        }
+        onClick={handleHighLight(params)}
+        label=""
       />,
     ],
   };
@@ -153,7 +182,7 @@ export default function DataTable({ data, onUpdate }: DataTableProps) {
   }, []);
 
   const handleRowClassName = (params: any) => {
-    return params.row.LM > 0 ? "highlight" : "";
+    return params.row.highlight ? "highlight" : "";
   };
 
   return (

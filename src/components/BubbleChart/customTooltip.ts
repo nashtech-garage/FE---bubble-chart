@@ -1,9 +1,10 @@
 import eventBus from "../../utilities/event-bus";
+import { lighten } from "@mui/material/styles";
 
 export const customTooltip = (fixedRadius: number) => ({
   id: "customTooltip",
 
-  afterDraw: function (chart: any) {
+  afterDatasetsDraw: function (chart: any) {
     const ctx = chart.ctx;
     const tooltip = chart.tooltip;
     const size = chart.width;
@@ -25,7 +26,7 @@ export const customTooltip = (fixedRadius: number) => ({
         const base = elementData.target / maxTarget;
         const radius = (size / 24) * base;
         const dfRadius = (defaultTarget / maxTarget) * (size / 24);
-        const drawCircle =
+        const drawRadius =
           elementData.target <= defaultTarget
             ? dfRadius + fixedRadius
             : radius + fixedRadius;
@@ -33,7 +34,10 @@ export const customTooltip = (fixedRadius: number) => ({
         if (elementData.target > 0) {
           ctx.save();
           ctx.beginPath();
-          ctx.arc(xPos, yPos, drawCircle, 0, 2 * Math.PI, false);
+          ctx.arc(xPos, yPos, drawRadius, 0, 2 * Math.PI, false);
+          ctx.arc(xPos, yPos, fixedRadius, 0, 2 * Math.PI, true);
+          ctx.fillStyle = lighten(elementDataset.backgroundColor, 0.7);
+          ctx.fill();
           ctx.strokeStyle = elementDataset.backgroundColor;
           ctx.lineWidth = 3;
           ctx.setLineDash([5, 5]);
