@@ -10,6 +10,8 @@ import Heading from "../Heading";
 // import MasterDataForm from "../MasterDataForm";
 import eventBus from "../../utilities/event-bus";
 import TooltipPanel from "../TooltipPanel";
+import { LOCAL_STORAGE, TAB_LABELS } from "../../constants";
+import Setting from "../Setting";
 
 function BasicTabs() {
   const [value, setValue] = useState<string>("");
@@ -17,12 +19,12 @@ function BasicTabs() {
   const [dataTooltip, setDataTooltip] = useState<ElementData>();
 
   const handleChange = (event: any, newValue: string) => {
-    localStorage.setItem("activeTab", newValue);
+    localStorage.setItem(LOCAL_STORAGE.ACTIVE_TAB, newValue);
     setValue(newValue);
   };
 
   const updateData = (data: DataType[]) => {
-    localStorage.setItem("chart", JSON.stringify(data));
+    localStorage.setItem(LOCAL_STORAGE.CHART, JSON.stringify(data));
     setData(data);
   };
 
@@ -37,16 +39,18 @@ function BasicTabs() {
   }, []);
 
   useEffect(() => {
-    const localStorageDataChart = localStorage.getItem("chart");
-    const localStorageActiveTab = localStorage.getItem("activeTab");
+    const localStorageDataChart = localStorage.getItem(LOCAL_STORAGE.CHART);
+    const localStorageActiveTab = localStorage.getItem(
+      LOCAL_STORAGE.ACTIVE_TAB
+    );
 
     if (typeof localStorageDataChart !== "string") {
-      localStorage.setItem("chart", JSON.stringify(mockData));
+      localStorage.setItem(LOCAL_STORAGE.CHART, JSON.stringify(mockData));
     }
     localStorageDataChart && setData(JSON.parse(localStorageDataChart));
 
     if (typeof localStorageActiveTab !== "string") {
-      localStorage.setItem("activeTab", "1");
+      localStorage.setItem(LOCAL_STORAGE.ACTIVE_TAB, "1");
     }
     localStorageActiveTab && setValue(localStorageActiveTab);
   }, []);
@@ -56,10 +60,10 @@ function BasicTabs() {
       {value !== "" && (
         <TabContext value={value}>
           <Box sx={tabStyle}>
-            <TabList onChange={handleChange} aria-label="lab API tabs example">
-              <Tab label="Chart" value="1" />
+            <TabList onChange={handleChange}>
+              <Tab label={TAB_LABELS.CHART} value="1" />
               {/* <Tab label="Master Data" value="2" /> */}
-              <Tab label="Data" value="2" />
+              <Tab label={TAB_LABELS.DATA} value="2" />
             </TabList>
           </Box>
           <Box sx={chartStyle}>
@@ -69,7 +73,7 @@ function BasicTabs() {
                   <BubbleChart propsData={data} />
                 </Grid>
                 <Grid item xs={2}>
-                  <div>Setting</div>
+                  <Setting />
                   {dataTooltip?.elementData && (
                     <TooltipPanel elementData={dataTooltip} />
                   )}

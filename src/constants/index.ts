@@ -1,2 +1,4 @@
 export * from './dataTable'
-export * from './nodeType' 
+export * from './localStorage'
+export * from './nodeType'
+export * from './tabBasic' 

@@ -9,5 +9,11 @@ export const COLOR_CHART_ANNOTATIONS = {
     ONGOING: "orange",
     FINISHED: "blue",
     PLAN: "green",
-    TITLE: "#000000"
+    TITLE: "#000000",
+    YTD: "lightblue"
+}
+export const ADDED_TYPES = {
+    ONGOING: "Ongoing",
+    FINISHED: "Finished"
+
 }

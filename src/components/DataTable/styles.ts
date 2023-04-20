@@ -23,5 +23,6 @@ export const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
                 backgroundColor: getBackgroundColor(ROW_COLOR.HIGHLIGHT),
             },
         },
+        "& input[type=number]": { textAlign: "right" }
     },
 }));

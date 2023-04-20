@@ -1,7 +1,6 @@
-import { useCallback, useEffect, useState, useMemo } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   GridActionsCellItem,
-  GridColDef,
   GridEditInputCell,
   GridRowId,
   GridRowModel,
@@ -10,18 +9,18 @@ import {
 } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { randomId } from "@mui/x-data-grid-generator";
-import { HEADERNAME, NEW_ITEM } from "../../constants";
+import { HEADERNAME, LOCAL_STORAGE, NEW_ITEM } from "../../constants";
 import { DataChildType, DataTableProps, DataType } from "../../models";
-import { checkVal } from "../../utilities";
 import { CustomToolbar } from "./Toolbar";
 import { StyledDataGrid } from "./styles";
-import { addedType } from "../../assets/dummy/mockData";
+import { defineColumns } from "./column";
+import { checkVal } from "../../utilities";
 
 export default function DataTable({ data, onUpdate }: DataTableProps) {
   const generateGridRows = useCallback((data: DataType[]) => {
     let rows: DataChildType[] = [];
     data.map((item) =>
-      item.data.map((dataItem: any) =>
+      item.data.map((dataItem: DataChildType) =>
         rows.push({
           ...dataItem,
           type: item.type,
@@ -31,15 +30,15 @@ export default function DataTable({ data, onUpdate }: DataTableProps) {
     return rows;
   }, []);
 
-  const [rows, setRows] = useState<any[]>(generateGridRows(data));
+  const [rows, setRows] = useState<DataChildType[]>(generateGridRows(data));
   const [isUpdateData, setIsUpdate] = useState(false);
   const [isJSON, setIsJSON] = useState(false);
 
-  const arrTypes = data.map((item) => item.type);
+  const defineColumn = defineColumns(data);
 
   const deleteNode = useCallback(
     (id: GridRowId) => () => {
-      setRows((prevRows: any[]) =>
+      setRows((prevRows: DataChildType[]) =>
         prevRows.filter((row: { id: GridRowId }) => row.id !== id)
       );
       setIsUpdate(true);
@@ -48,15 +47,15 @@ export default function DataTable({ data, onUpdate }: DataTableProps) {
   );
 
   const addNew = useCallback(() => {
-    const itemToAdd = { id: randomId(), ...NEW_ITEM };
-    setRows((prevRows: any[]) => [itemToAdd, ...prevRows]);
+    const newItem: DataChildType = { id: randomId(), ...NEW_ITEM };
+    setRows((prevRows: DataChildType[]) => [newItem, ...prevRows]);
     setIsUpdate(true);
   }, []);
 
   const handleImport = useCallback(
-    (data: any) => {
+    (data: DataType[]) => {
       setRows(generateGridRows(data));
-      localStorage.setItem("chart", JSON.stringify(data));
+      localStorage.setItem(LOCAL_STORAGE.CHART, JSON.stringify(data));
       setIsUpdate(true);
     },
     [generateGridRows]
@@ -64,180 +63,60 @@ export default function DataTable({ data, onUpdate }: DataTableProps) {
 
   const clear = () => {
     setRows([]);
-    localStorage.removeItem("chart");
+    localStorage.removeItem(LOCAL_STORAGE.CHART);
     setIsUpdate(true);
   };
 
-  const columns = useMemo<GridColDef<any>[]>(
-    () => [
-      {
-        field: "type",
-        headerName: HEADERNAME.TYPE,
-        editable: true,
-        type: "singleSelect",
-        valueOptions: arrTypes,
-        flex: 1,
-        sortable: false,
-      },
-      {
-        field: "name",
-        headerName: HEADERNAME.NAME,
-        editable: true,
-        flex: 1,
-        sortable: false,
-      },
-      {
-        field: "addedType",
-        headerName: HEADERNAME.ADDED_TYPE,
-        editable: true,
-        type: "singleSelect",
-        valueOptions: addedType,
-        flex: 1,
-        sortable: false,
-      },
-      {
-        field: "target",
-        headerName: HEADERNAME.PLAN,
-        type: "number",
-        editable: true,
-        flex: 1,
-        sortable: false,
-        renderEditCell: (params: any) => (
-          <GridEditInputCell
-            {...params}
-            inputProps={{
-              max: 100,
-              min: 1,
-            }}
-          />
-        ),
-        valueSetter: (params: GridValueSetterParams) => {
-          return { ...params.row, target: checkVal(params.value, 1, 100) };
-        },
-      },
-      {
-        field: "gotSkill",
-        headerName: HEADERNAME.GOTS_KILL,
-        type: "number",
-        editable: true,
-        flex: 1,
-        sortable: false,
-        renderEditCell: (params: any) => (
-          <GridEditInputCell
-            {...params}
-            inputProps={{
-              max: 100,
-              min: 1,
-            }}
-          />
-        ),
-        valueSetter: (params: GridValueSetterParams) => {
-          return { ...params.row, gotSkill: checkVal(params.value, 1, 100) };
-        },
-      },
-      {
-        field: "YTD",
-        headerName: HEADERNAME.NEW_ADDED,
-        type: "number",
-        editable: true,
-        flex: 1,
-        sortable: false,
-        renderEditCell: (params: any) => (
-          <GridEditInputCell
-            {...params}
-            inputProps={{
-              min: 0,
-            }}
-          />
-        ),
-        valueSetter: (params: GridValueSetterParams) => {
-          return { ...params.row, YTD: checkVal(params.value, 1, 100) };
-        },
-      },
-      {
-        field: "LM",
-        headerName: HEADERNAME.NEW_ADDED_LM,
-        type: "number",
-        editable: true,
-        flex: 1,
-        sortable: false,
-        renderEditCell: (params: any) => (
-          <GridEditInputCell
-            {...params}
-            inputProps={{
-              min: 0,
-            }}
-          />
-        ),
-        valueSetter: (params: GridValueSetterParams) => {
-          return { ...params.row, LM: checkVal(params.value, 0, 100) };
-        },
-      },
-
-      {
-        field: "x",
-        headerName: HEADERNAME.POSITION_X,
-        type: "number",
-        editable: true,
-        align: "right",
-        flex: 1,
-        sortable: false,
-        renderEditCell: (params: any) => (
-          <GridEditInputCell
-            {...params}
-            inputProps={{
-              max: 100,
-              min: 0,
-            }}
-          />
-        ),
-        valueSetter: (params: GridValueSetterParams) => {
-          return { ...params.row, x: checkVal(params.value, 0, 100) };
-        },
-      },
-      {
-        field: "y",
-        headerName: HEADERNAME.POSITION_Y,
-        type: "number",
-        editable: true,
-        align: "right",
-        flex: 1,
-        sortable: false,
-        renderEditCell: (params: any) => (
-          <GridEditInputCell
-            {...params}
-            inputProps={{
-              max: 100,
-              min: 0,
-            }}
-          />
-        ),
-        valueSetter: (params: GridValueSetterParams) => {
-          return { ...params.row, y: checkVal(params.value, 0, 100) };
-        },
-      },
-      {
-        field: "actions",
-        type: "actions",
-        headerName: HEADERNAME.ACTIONS,
-        flex: 1,
-        sortable: false,
-        width: 100,
-        getActions: (params: GridRowParams) => [
-          <GridActionsCellItem
-            icon={<DeleteIcon />}
-            onClick={deleteNode(params.id)}
-            label="Delete"
-          />,
-        ],
-      },
+  const actionsField = {
+    field: "actions",
+    type: "actions",
+    headerName: HEADERNAME.ACTIONS,
+    flex: 1,
+    sortable: false,
+    width: 100,
+    getActions: (params: GridRowParams) => [
+      <GridActionsCellItem
+        icon={<DeleteIcon />}
+        onClick={deleteNode(params.id)}
+        label="Delete"
+      />,
     ],
-    [arrTypes, deleteNode]
-  );
+  };
+
+  const editCell = (field: string, min: number, max: number) => {
+    return {
+      renderEditCell: (params: any) => (
+        <GridEditInputCell
+          {...params}
+          inputProps={{
+            max,
+            min,
+          }}
+        />
+      ),
+      valueSetter: (params: GridValueSetterParams) => {
+        const value = Number(checkVal(params.value, min, max));
+        const changeValue = JSON.parse(`{"${field}": ${value}}`);
+        return { ...params.row, ...changeValue };
+      },
+    };
+  };
+
+  const columns = [
+    defineColumn.typeField,
+    defineColumn.nameField,
+    defineColumn.addedTypeField,
+    { ...defineColumn.planField, ...editCell("target", 1, 100) },
+    { ...defineColumn.gotSkillField, ...editCell("gotSkill", 1, 100) },
+    { ...defineColumn.YTDField, ...editCell("YTD", 1, 100) },
+    { ...defineColumn.LMField, ...editCell("LM", 0, 100) },
+    { ...defineColumn.XField, ...editCell("x", 0, 100) },
+    { ...defineColumn.YField, ...editCell("y", 0, 100) },
+    actionsField,
+  ];
 
   const formatOuputData = useCallback(() => {
-    let output: any[] = [];
-    output = data.map((itemType) => {
+    const output = data.map((itemType) => {
       const temp = rows.filter((item) => item.type === itemType.type);
       return { ...itemType, data: temp };
     });
@@ -258,7 +137,8 @@ export default function DataTable({ data, onUpdate }: DataTableProps) {
               ...r,
               ...newRow,
             };
-          } else return r;
+          }
+          return r;
         });
         return temp;
       });
@@ -267,6 +147,7 @@ export default function DataTable({ data, onUpdate }: DataTableProps) {
     },
     [rows]
   );
+
   const handleProcessRowUpdateError = useCallback((error: Error) => {
     console.log(error.message);
   }, []);
@@ -274,6 +155,7 @@ export default function DataTable({ data, onUpdate }: DataTableProps) {
   const handleRowClassName = (params: any) => {
     return params.row.LM > 0 ? "highlight" : "";
   };
+
   return (
     <>
       <StyledDataGrid
