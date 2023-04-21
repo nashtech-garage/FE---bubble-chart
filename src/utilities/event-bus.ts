@@ -1,5 +1,4 @@
 const eventBus = {
-
   // Register Event Listener
   on(event: any, callback: any): void {
     document.addEventListener(event, (e) => callback(e.detail));
