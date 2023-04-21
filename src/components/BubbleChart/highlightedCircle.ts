@@ -1,4 +1,4 @@
-import { darken } from "@mui/material/styles";
+import { lighten } from "@mui/material/styles";
 
 export const highlightedCircle = (fixedRadius: number) => ({
   id: "highlightedCircle",
@@ -18,8 +18,9 @@ export const highlightedCircle = (fixedRadius: number) => ({
             ctx.save();
             ctx.beginPath();
             ctx.arc(xPos, yPos, fixedRadius, 0, 2 * Math.PI, false);
-            ctx.fillStyle = darken(dataset.backgroundColor, 0.15);
-            ctx.fill();
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = lighten("#ff1744", 0.5);
+            ctx.stroke();
             ctx.restore();
           }
         });

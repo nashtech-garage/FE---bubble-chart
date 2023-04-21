@@ -1,6 +1,8 @@
+import { lighten } from "@mui/material/styles";
+
 export const extraCircle = (fixedRadius: number) => ({
   id: "drawExtraCircle",
-  beforeDatasetsDraw: function (chart: any, easing: any) {
+  afterDatasetsDraw: function (chart: any, easing: any) {
     const ctx = chart.ctx;
     const allData = chart.data.datasets.flatMap((dataset: any) => dataset.data);
     const maxTarget = Math.max(...allData.map((data: any) => data.target));
@@ -71,14 +73,18 @@ export const extraCircle = (fixedRadius: number) => ({
             ctx.save();
             ctx.beginPath();
             ctx.arc(xPos, yPos, drawRadius, 0, 2 * Math.PI, false);
-            ctx.strokeStyle = "#385994";
+            ctx.strokeStyle = data.highlighted
+              ? lighten("#ff1744", 0.5)
+              : "#385994";
             ctx.lineWidth = 2;
             ctx.setLineDash([5, 5]); // Set the line dash style
             ctx.stroke();
             ctx.restore();
 
             ctx.beginPath();
-            ctx.strokeStyle = "#385994";
+            ctx.strokeStyle = data.highlighted
+              ? lighten("#ff1744", 0.5)
+              : "#385994";
             ctx.lineWidth = 2;
             ctx.moveTo(xPos + fixedRadius, yPos);
             ctx.lineTo(xPos + drawRadius, yPos);
