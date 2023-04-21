@@ -21,7 +21,7 @@ const TooltipPanel = (elementData: any) => {
 
           <ListItem sx={{ color: COLOR_CHART_ANNOTATIONS.PLAN }}>
             <ListItemText primary="Plan:" />
-            <ListItemText primary={panel?.Plan > 0 ? panel?.Plan : 0} />
+            <ListItemText primary={panel?.target > 0 ? panel?.target : 0} />
           </ListItem>
           <ListItem sx={{ color: COLOR_CHART_ANNOTATIONS.YTD }}>
             <ListItemText primary="Added (YID):" />
