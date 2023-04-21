@@ -1,11 +1,15 @@
 import { useCallback, useEffect, useState } from "react";
 import {
   GridActionsCellItem,
+  GridCallbackDetails,
   GridEditInputCell,
   GridRowId,
   GridRowModel,
+  GridRowModes,
+  GridRowModesModel,
   GridRowParams,
   GridValueSetterParams,
+  useGridApiRef,
 } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
@@ -17,25 +21,13 @@ import { CustomToolbar } from "./Toolbar";
 import { StyledDataGrid } from "./styles";
 import { defineColumns } from "./column";
 import { checkVal } from "../../utilities";
-import { generateChartData } from "../../transformData";
+import { generateChartData, generateGridRows } from "../../transformData";
 
 export default function DataTable({ data, onUpdate }: DataTableProps) {
-  const generateGridRows = useCallback((data: DataType[]) => {
-    let rows: DataChildType[] = [];
-    data.map((item) =>
-      item.data.map((dataItem: DataChildType) =>
-        rows.push({
-          ...dataItem,
-          type: item.type,
-        })
-      )
-    );
-    return rows;
-  }, []);
-
   const [rows, setRows] = useState<DataChildType[]>(generateGridRows(data));
   const [isUpdateData, setIsUpdate] = useState(false);
   const [isJSON, setIsJSON] = useState(false);
+  const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
 
   const defineColumn = defineColumns(data);
 
@@ -72,23 +64,51 @@ export default function DataTable({ data, onUpdate }: DataTableProps) {
     localStorage.removeItem(LOCAL_STORAGE.CHART);
     setIsUpdate(true);
   };
+
+  const apiRef = useGridApiRef();
   const handleHighLight = useCallback(
     (params: GridRowParams) => () => {
-      setRows(() =>
-        rows.map((r: any) => {
-          if (r.id === params.id) {
-            return {
-              ...r,
-              highlighted: !params.row.highlighted,
-            };
-          }
-          return r;
-        })
-      );
+      const rowMode = apiRef.current.getRowMode(params.id);
+      if (rowMode === "view") {
+        setRows(() =>
+          rows.map((r: any) => {
+            if (r.id === params.id) {
+              return {
+                ...r,
+                highlighted: !params.row.highlighted,
+              };
+            }
+            return r;
+          })
+        );
+      } else {
+        setRowModesModel({
+          [params.id]: { mode: GridRowModes.View },
+        });
+        setRows(() =>
+          rows.map((r: any) => {
+            if (r.id === params.id) {
+              return {
+                ...params.row,
+                ...Object.values(apiRef.current.state.editRows)[0],
+                highlighted: !params.row.highlighted,
+              };
+            }
+            return r;
+          })
+        );
+      }
+
       setIsUpdate(true);
     },
-    [rows]
+    [apiRef, rows]
   );
+  const handleRowModesModelChange = (
+    rowModesModel: GridRowModesModel,
+    details: GridCallbackDetails
+  ) => {
+    setRowModesModel(rowModesModel);
+  };
   const actionsField = {
     field: "actions",
     type: "actions",
@@ -111,25 +131,25 @@ export default function DataTable({ data, onUpdate }: DataTableProps) {
           )
         }
         onClick={handleHighLight(params)}
-        label=""
+        label="highlight"
       />,
     ],
   };
 
-  const editCell = (field: string, min: number, max: number) => {
+  const editCell = (col: any) => {
     return {
       renderEditCell: (params: any) => (
         <GridEditInputCell
           {...params}
           inputProps={{
-            max,
-            min,
+            max: col.max,
+            min: col.min,
           }}
         />
       ),
       valueSetter: (params: GridValueSetterParams) => {
-        const value = Number(checkVal(params.value, min, max));
-        const changeValue = JSON.parse(`{"${field}": ${value}}`);
+        const value = Number(checkVal(params.value, col.min, col.max));
+        const changeValue = JSON.parse(`{"${col.field}": ${value}}`);
         return { ...params.row, ...changeValue };
       },
     };
@@ -139,12 +159,30 @@ export default function DataTable({ data, onUpdate }: DataTableProps) {
     defineColumn.typeField,
     defineColumn.nameField,
     defineColumn.addedTypeField,
-    { ...defineColumn.planField, ...editCell("target", 1, 100) },
-    { ...defineColumn.gotSkillField, ...editCell("gotSkill", 1, 100) },
-    { ...defineColumn.YTDField, ...editCell("YTD", 1, 100) },
-    { ...defineColumn.LMField, ...editCell("LM", 0, 100) },
-    { ...defineColumn.XField, ...editCell("x", 0, 100) },
-    { ...defineColumn.YField, ...editCell("y", 0, 100) },
+    {
+      ...defineColumn.planField,
+      ...editCell(defineColumn.planField),
+    },
+    {
+      ...defineColumn.gotSkillField,
+      ...editCell(defineColumn.gotSkillField),
+    },
+    {
+      ...defineColumn.YTDField,
+      ...editCell(defineColumn.YTDField),
+    },
+    {
+      ...defineColumn.LMField,
+      ...editCell(defineColumn.LMField),
+    },
+    {
+      ...defineColumn.XField,
+      ...editCell(defineColumn.XField),
+    },
+    {
+      ...defineColumn.YField,
+      ...editCell(defineColumn.YField),
+    },
     actionsField,
   ];
 
@@ -192,15 +230,18 @@ export default function DataTable({ data, onUpdate }: DataTableProps) {
   return (
     <>
       <StyledDataGrid
+        apiRef={apiRef}
         autoHeight
         disableRowSelectionOnClick
         disableColumnMenu={true}
         rows={rows}
         columns={columns}
         editMode="row"
+        rowModesModel={rowModesModel}
         processRowUpdate={processRowUpdate}
         onProcessRowUpdateError={handleProcessRowUpdateError}
         getRowClassName={handleRowClassName}
+        onRowModesModelChange={handleRowModesModelChange}
         slots={{
           // custom component passed to the `toolbar` slot
           toolbar: CustomToolbar,
