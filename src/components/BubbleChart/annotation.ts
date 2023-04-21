@@ -1,3 +1,5 @@
+import { ANNOTATIONS } from "../../constants/chartColor";
+
 export const annotations = (isDarkMode: boolean) => ({
   annotations: {
     line1: {
@@ -6,11 +8,13 @@ export const annotations = (isDarkMode: boolean) => ({
       xMax: 100,
       yMin: 50,
       yMax: 50,
-      borderColor: "#4f7ac7",
+      borderColor: ANNOTATIONS.MAIN_COLOR,
       borderWidth: 2,
       drawTime: "beforeDraw",
       label: {
-        color: isDarkMode ? "white" : "black",
+        color: isDarkMode
+          ? ANNOTATIONS.TEXT_COLOR_DARK
+          : ANNOTATIONS.TEXT_COLOR_LIGHT,
         backgroundColor: "transparent",
         content: "Core Skills",
         display: true,
@@ -31,12 +35,14 @@ export const annotations = (isDarkMode: boolean) => ({
       yMax: 100,
       xMin: 50,
       xMax: 50,
-      borderColor: "#4f7ac7",
+      borderColor: ANNOTATIONS.MAIN_COLOR,
       borderWidth: 2,
       drawTime: "beforeDraw",
     },
     label1: {
-      color: isDarkMode ? "white" : "black",
+      color: isDarkMode
+        ? ANNOTATIONS.TEXT_COLOR_DARK
+        : ANNOTATIONS.TEXT_COLOR_LIGHT,
       type: "label",
       xMin: 95,
       xMax: 95,
@@ -57,17 +63,19 @@ export const annotations = (isDarkMode: boolean) => ({
       xMax: 1,
       yMin: 1,
       yMax: 100,
-      borderColor: "#4f7ac7",
+      borderColor: ANNOTATIONS.MAIN_COLOR,
       borderWidth: 3,
       drawTime: "beforeDraw",
       arrowHeads: {
         end: {
-          backgroundColor: "#4f7ac7",
+          backgroundColor: ANNOTATIONS.MAIN_COLOR,
           display: true,
         },
       },
       label: {
-        color: isDarkMode ? "white" : "black",
+        color: isDarkMode
+          ? ANNOTATIONS.TEXT_COLOR_DARK
+          : ANNOTATIONS.TEXT_COLOR_LIGHT,
         backgroundColor: "transparent",
         rotation: 270,
         content: "Opportunity",
@@ -88,17 +96,19 @@ export const annotations = (isDarkMode: boolean) => ({
       xMax: 85,
       yMin: 1,
       yMax: 1,
-      borderColor: "#4f7ac7",
+      borderColor: ANNOTATIONS.MAIN_COLOR,
       borderWidth: 3,
       drawTime: "beforeDraw",
       arrowHeads: {
         end: {
-          backgroundColor: "#4f7ac7",
+          backgroundColor: ANNOTATIONS.MAIN_COLOR,
           display: true,
         },
       },
       label: {
-        color: isDarkMode ? "white" : "black",
+        color: isDarkMode
+          ? ANNOTATIONS.TEXT_COLOR_DARK
+          : ANNOTATIONS.TEXT_COLOR_LIGHT,
         backgroundColor: "transparent",
         content: "Innovation",
         display: true,
@@ -114,4 +124,4 @@ export const annotations = (isDarkMode: boolean) => ({
       },
     },
   },
-})
+});
