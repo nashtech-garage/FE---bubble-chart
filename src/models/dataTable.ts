@@ -10,7 +10,7 @@ export interface DataChildType {
     y: number;
     LM: number;
     YTD: number;
-    highlight?: boolean
+    highlighted?: boolean
 }
 
 export interface DataType {

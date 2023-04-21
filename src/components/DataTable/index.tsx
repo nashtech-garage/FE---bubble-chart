@@ -79,7 +79,7 @@ export default function DataTable({ data, onUpdate }: DataTableProps) {
           if (r.id === params.id) {
             return {
               ...r,
-              highlight: !params.row.highlight,
+              highlighted: !params.row.highlighted,
             };
           }
           return r;
@@ -104,7 +104,11 @@ export default function DataTable({ data, onUpdate }: DataTableProps) {
       />,
       <GridActionsCellItem
         icon={
-          params.row.highlight ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />
+          params.row.highlighted ? (
+            <CheckBoxIcon />
+          ) : (
+            <CheckBoxOutlineBlankIcon />
+          )
         }
         onClick={handleHighLight(params)}
         label=""
@@ -182,7 +186,7 @@ export default function DataTable({ data, onUpdate }: DataTableProps) {
   }, []);
 
   const handleRowClassName = (params: any) => {
-    return params.row.highlight ? "highlight" : "";
+    return params.row.highlighted ? "highlight" : "";
   };
 
   return (
