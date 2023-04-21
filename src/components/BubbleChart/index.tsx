@@ -11,6 +11,7 @@ import { useColorScheme } from "@mui/material/styles";
 import { Box } from "@mui/system";
 import { customTooltip } from "./customTooltip";
 import { customLabel } from "./customLabel";
+import { highlightedCircle } from "./highlightedCircle";
 import { extraCircle } from "./extraCircle";
 
 import annotationPlugin from "chartjs-plugin-annotation";
@@ -21,7 +22,8 @@ const handleDataSet = (data: any) => {
   const mapped = data.map((item: any) => {
     const { type, color } = item;
     const data: any = item.data.map((i: any) => {
-      const { x, y, gotSkill, YTD, LM, target, addedType }: any = i;
+      const { x, y, gotSkill, YTD, LM, target, addedType, highlighted }: any =
+        i;
       return {
         x,
         y,
@@ -30,6 +32,7 @@ const handleDataSet = (data: any) => {
         LM,
         target,
         addedType,
+        highlighted,
         label: i.name,
       };
     });
@@ -98,6 +101,7 @@ function BubbleChart({ propsData }: any) {
     canvasBackground,
     extraCircle(fixedRadius),
     customTooltip(fixedRadius),
+    highlightedCircle(fixedRadius),
     customLabel(fixedRadius),
     annotationPlugin,
     LinearScale,
