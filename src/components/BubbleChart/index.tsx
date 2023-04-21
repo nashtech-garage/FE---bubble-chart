@@ -58,11 +58,14 @@ function BubbleChart({ propsData }: any) {
   const isDarkMode = mode === "dark";
 
   const scalesOption = {
-    display: false,
+    // display: false,
     grid: {
       display: false,
     },
     beginAtZero: true,
+    ticks: {
+      display: false,
+    },
   };
 
   const elements = {

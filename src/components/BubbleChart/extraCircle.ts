@@ -89,6 +89,7 @@ export const extraCircle = (fixedRadius: number) => ({
             ctx.moveTo(xPos + fixedRadius, yPos);
             ctx.lineTo(xPos + drawRadius, yPos);
 
+            ctx.lineWidth = 1.5;
             ctx.moveTo(endArrowUpperX, endArrowUpperY);
             ctx.lineTo(xPos + drawRadius, yPos);
             ctx.lineTo(endArrowBelowX, endArrowBelowY);
@@ -97,9 +98,14 @@ export const extraCircle = (fixedRadius: number) => ({
             ctx.lineTo(xPos + fixedRadius, yPos);
             ctx.lineTo(startArrowBelowX, startArrowBelowY);
 
-            ctx.font = "10px Arial";
+            ctx.font = "bolder 10px Arial";
             ctx.fillStyle = "black";
-            ctx.fillText(`+${data.target}`, xPos + fixedRadius, yPos + 10);
+            ctx.textAlign = "center";
+            ctx.fillText(
+              `+${data.target}`,
+              xPos + fixedRadius + (drawRadius - fixedRadius) / 2,
+              yPos + 10
+            );
             ctx.stroke();
           }
         });

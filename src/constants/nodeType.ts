@@ -6,11 +6,12 @@ export const NODE_STATUSES = {
 };
 
 export const COLOR_CHART_ANNOTATIONS = {
+  GOTSKILL: "black",
   ONGOING: "orange",
-  FINISHED: "blue",
-  PLAN: "green",
+  FINISHED: "#3333ff",
+  PLAN: "#00cc00",
   TITLE: "#000000",
-  YTD: "lightblue",
+  YTD: "#80aaff",
 };
 
 export const ADDED_TYPES = {
