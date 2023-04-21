@@ -41,6 +41,8 @@ export const defineColumns = (data: DataType[]) => {
     editable: true,
     flex: 1,
     sortable: false,
+    min: 0,
+    max: 100,
   };
 
   const gotSkillField = {
@@ -50,6 +52,8 @@ export const defineColumns = (data: DataType[]) => {
     editable: true,
     flex: 1,
     sortable: false,
+    min: 0,
+    max: 100,
   };
 
   const YTDField = {
@@ -59,6 +63,8 @@ export const defineColumns = (data: DataType[]) => {
     editable: true,
     flex: 1,
     sortable: false,
+    min: 0,
+    max: 100,
   };
 
   const LMField = {
@@ -68,6 +74,8 @@ export const defineColumns = (data: DataType[]) => {
     editable: true,
     flex: 1,
     sortable: false,
+    min: 0,
+    max: 100,
   };
 
   const XField = {
@@ -78,6 +86,8 @@ export const defineColumns = (data: DataType[]) => {
     align: "right",
     flex: 1,
     sortable: false,
+    min: 1,
+    max: 100,
   };
 
   const YField = {
@@ -88,6 +98,8 @@ export const defineColumns = (data: DataType[]) => {
     align: "right",
     flex: 1,
     sortable: false,
+    min: 1,
+    max: 100,
   };
 
   return {
