@@ -13,7 +13,7 @@ export function CustomToolbar(
     <>
       <GridToolbarContainer>
         <Button onClick={props.addNew}>Add New</Button>
-        <ExportButton data={props.data} />
+        {props.rows.length > 0 && <ExportButton data={props.data} />}
         <ImportButton
           fileImport={props.handleImport}
           isJSON={(isJSON: boolean) => props.setIsJSON(!isJSON)}

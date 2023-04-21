@@ -254,6 +254,7 @@ export default function DataTable({ data, onUpdate }: DataTableProps) {
             setIsJSON,
             isJSON,
             clear,
+            rows,
           },
         }}
       />
