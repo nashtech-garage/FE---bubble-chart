@@ -17,6 +17,7 @@ import { extraCircle } from "./extraCircle";
 import annotationPlugin from "chartjs-plugin-annotation";
 import { annotations } from "./annotation";
 import { canvasBackground } from "./canvasBg";
+import { betweenCircles } from "./betweenCircles";
 
 const handleDataSet = (data: any) => {
   const mapped = data.map((item: any) => {
@@ -106,6 +107,7 @@ function BubbleChart({ propsData }: any) {
     customTooltip(fixedRadius),
     highlightedCircle(fixedRadius),
     customLabel(fixedRadius),
+    betweenCircles(fixedRadius),
     annotationPlugin,
     LinearScale,
     PointElement,
