@@ -1,5 +1,3 @@
-import { lighten } from "@mui/material/styles";
-
 export const extraCircle = (fixedRadius: number) => ({
   id: "drawExtraCircle",
   afterDatasetsDraw: function (chart: any, easing: any) {
@@ -73,23 +71,19 @@ export const extraCircle = (fixedRadius: number) => ({
             ctx.save();
             ctx.beginPath();
             ctx.arc(xPos, yPos, drawRadius, 0, 2 * Math.PI, false);
-            ctx.strokeStyle = data.highlighted
-              ? lighten("#ff1744", 0.5)
-              : "#385994";
-            ctx.lineWidth = 2;
+            ctx.strokeStyle = data.highlighted ? "#ff1744" : "#385994";
+            ctx.lineWidth = 1;
             ctx.setLineDash([5, 5]); // Set the line dash style
             ctx.stroke();
             ctx.restore();
 
             ctx.beginPath();
-            ctx.strokeStyle = data.highlighted
-              ? lighten("#ff1744", 0.5)
-              : "#385994";
-            ctx.lineWidth = 2;
+            ctx.strokeStyle = data.highlighted ? "#ff1744" : "#385994";
+            ctx.lineWidth = 1;
             ctx.moveTo(xPos + fixedRadius, yPos);
             ctx.lineTo(xPos + drawRadius, yPos);
 
-            ctx.lineWidth = 1.5;
+            ctx.lineWidth = 1.25;
             ctx.moveTo(endArrowUpperX, endArrowUpperY);
             ctx.lineTo(xPos + drawRadius, yPos);
             ctx.lineTo(endArrowBelowX, endArrowBelowY);
@@ -99,7 +93,7 @@ export const extraCircle = (fixedRadius: number) => ({
             ctx.lineTo(startArrowBelowX, startArrowBelowY);
 
             ctx.font = "bolder 10px Arial";
-            ctx.fillStyle = "black";
+            ctx.fillStyle = data.highlighted ? "#ff1744" : "black";
             ctx.textAlign = "center";
             ctx.fillText(
               `+${data.target}`,

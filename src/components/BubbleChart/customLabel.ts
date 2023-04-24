@@ -47,7 +47,7 @@ export const customLabel = (fixedRadius: number) => ({
               ctx.textAlign = "left";
               ctx.fillStyle = colorArray[i];
               ctx.fillText(parts[i], x, y);
-              x += ctx.measureText(parts[i]).width + 3;
+              x += ctx.measureText(parts[i]).width + 2;
             }
           }
         });
