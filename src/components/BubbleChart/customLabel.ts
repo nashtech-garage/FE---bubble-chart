@@ -31,7 +31,6 @@ export const customLabel = (fixedRadius: number) => ({
           ctx.fillStyle = "black";
           ctx.textAlign = "center";
           wrapText(ctx, data.label, xPos, startPosition.y, fixedRadius * 2, 9);
-          console.log("ctx", ctx);
           if (
             data.gotSkill !== 0 ||
             data.YTD !== 0 ||

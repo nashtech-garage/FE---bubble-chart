@@ -1,6 +1,13 @@
 import eventBus from "../../utilities/event-bus";
 import { darken } from "@mui/material/styles";
 
+const dispatchEvent = (event: string, container: any) => {
+  eventBus.dispatch(`${event}`, {
+    elementData: container,
+    bgColor: container.backgroundColor,
+  });
+};
+
 export const customTooltip = (fixedRadius: number) => ({
   id: "customTooltip",
 
@@ -18,11 +25,10 @@ export const customTooltip = (fixedRadius: number) => ({
         const xPos = element.element.x;
         const yPos = element.element.y;
         const elementDataset = chart.data.datasets[element.datasetIndex];
-        const elementData = elementDataset.data[element.index];
-        eventBus.dispatch("chart-tooltip", {
-          elementData: elementData,
-          bgColor: elementDataset.backgroundColor,
-        });
+        const elementData = {
+          ...elementDataset.data[element.index],
+          backgroundColor: elementDataset.backgroundColor,
+        };
         const base = elementData.target / maxTarget;
         const radius = (size / 24) * base;
         const dfRadius = (defaultTarget / maxTarget) * (size / 24);
@@ -30,6 +36,8 @@ export const customTooltip = (fixedRadius: number) => ({
           elementData.target <= defaultTarget
             ? dfRadius + fixedRadius
             : radius + fixedRadius;
+        //dispatch event displayed tooltip panel
+        dispatchEvent("chart-tooltip", elementData);
 
         if (elementData.target > 0) {
           ctx.save();
