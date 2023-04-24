@@ -1,19 +1,14 @@
 import { useCallback, useEffect, useState } from "react";
 import {
   GridActionsCellItem,
-  GridCallbackDetails,
   GridEditInputCell,
   GridRowId,
   GridRowModel,
-  GridRowModes,
-  GridRowModesModel,
   GridRowParams,
   GridValueSetterParams,
   useGridApiRef,
 } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
-import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
-import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import { randomId } from "@mui/x-data-grid-generator";
 import { HEADERNAME, LOCAL_STORAGE, NEW_ITEM } from "../../constants";
 import { DataChildType, DataTableProps, DataType } from "../../models";
@@ -27,7 +22,6 @@ export default function DataTable({ data, onUpdate }: DataTableProps) {
   const [rows, setRows] = useState<DataChildType[]>(generateGridRows(data));
   const [isUpdateData, setIsUpdate] = useState(false);
   const [isJSON, setIsJSON] = useState(false);
-  const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
 
   const defineColumn = defineColumns(data);
 
@@ -47,17 +41,14 @@ export default function DataTable({ data, onUpdate }: DataTableProps) {
     setIsUpdate(true);
   }, []);
 
-  const handleImport = useCallback(
-    (data: DataType[]) => {
-      setRows(generateGridRows(data));
-      localStorage.setItem(
-        LOCAL_STORAGE.CHART,
-        JSON.stringify(generateChartData(data))
-      );
-      setIsUpdate(true);
-    },
-    [generateGridRows]
-  );
+  const handleImport = useCallback((data: DataType[]) => {
+    setRows(generateGridRows(data));
+    localStorage.setItem(
+      LOCAL_STORAGE.CHART,
+      JSON.stringify(generateChartData(data))
+    );
+    setIsUpdate(true);
+  }, []);
 
   const clear = () => {
     setRows([]);
@@ -66,49 +57,7 @@ export default function DataTable({ data, onUpdate }: DataTableProps) {
   };
 
   const apiRef = useGridApiRef();
-  const handleHighLight = useCallback(
-    (params: GridRowParams) => () => {
-      const rowMode = apiRef.current.getRowMode(params.id);
-      if (rowMode === "view") {
-        setRows(() =>
-          rows.map((r: any) => {
-            if (r.id === params.id) {
-              return {
-                ...r,
-                highlighted: !params.row.highlighted,
-              };
-            }
-            return r;
-          })
-        );
-      } else {
-        setRowModesModel({
-          [params.id]: { mode: GridRowModes.View },
-        });
-        setRows(() =>
-          rows.map((r: any) => {
-            if (r.id === params.id) {
-              return {
-                ...params.row,
-                ...Object.values(apiRef.current.state.editRows)[0],
-                highlighted: !params.row.highlighted,
-              };
-            }
-            return r;
-          })
-        );
-      }
 
-      setIsUpdate(true);
-    },
-    [apiRef, rows]
-  );
-  const handleRowModesModelChange = (
-    rowModesModel: GridRowModesModel,
-    details: GridCallbackDetails
-  ) => {
-    setRowModesModel(rowModesModel);
-  };
   const actionsField = {
     field: "actions",
     type: "actions",
@@ -121,17 +70,6 @@ export default function DataTable({ data, onUpdate }: DataTableProps) {
         icon={<DeleteIcon />}
         onClick={deleteNode(params.id)}
         label="Delete"
-      />,
-      <GridActionsCellItem
-        icon={
-          params.row.highlighted ? (
-            <CheckBoxIcon />
-          ) : (
-            <CheckBoxOutlineBlankIcon />
-          )
-        }
-        onClick={handleHighLight(params)}
-        label="highlight"
       />,
     ],
   };
@@ -151,6 +89,14 @@ export default function DataTable({ data, onUpdate }: DataTableProps) {
         const value = Number(checkVal(params.value, col.min, col.max));
         const changeValue = JSON.parse(`{"${col.field}": ${value}}`);
         return { ...params.row, ...changeValue };
+      },
+    };
+  };
+
+  const editHighlightedCell = (col: any) => {
+    return {
+      valueSetter: (params: GridValueSetterParams) => {
+        return { ...params.row, highlighted: params.value };
       },
     };
   };
@@ -182,6 +128,10 @@ export default function DataTable({ data, onUpdate }: DataTableProps) {
     {
       ...defineColumn.YField,
       ...editCell(defineColumn.YField),
+    },
+    {
+      ...defineColumn.HighlightField,
+      ...editHighlightedCell(defineColumn.HighlightField),
     },
     actionsField,
   ];
@@ -237,11 +187,9 @@ export default function DataTable({ data, onUpdate }: DataTableProps) {
         rows={rows}
         columns={columns}
         editMode="row"
-        rowModesModel={rowModesModel}
         processRowUpdate={processRowUpdate}
         onProcessRowUpdateError={handleProcessRowUpdateError}
         getRowClassName={handleRowClassName}
-        onRowModesModelChange={handleRowModesModelChange}
         slots={{
           // custom component passed to the `toolbar` slot
           toolbar: CustomToolbar,
