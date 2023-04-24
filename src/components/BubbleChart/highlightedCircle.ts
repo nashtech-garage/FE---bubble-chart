@@ -1,5 +1,3 @@
-import { lighten } from "@mui/material/styles";
-
 export const highlightedCircle = (fixedRadius: number) => ({
   id: "highlightedCircle",
   afterDatasetsDraw: function (chart: any, easing: any) {
@@ -18,8 +16,8 @@ export const highlightedCircle = (fixedRadius: number) => ({
             ctx.save();
             ctx.beginPath();
             ctx.arc(xPos, yPos, fixedRadius, 0, 2 * Math.PI, false);
-            ctx.lineWidth = 2;
-            ctx.strokeStyle = lighten("#ff1744", 0.5);
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = "#ff1744";
             ctx.stroke();
             ctx.restore();
           }

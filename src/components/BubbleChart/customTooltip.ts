@@ -45,7 +45,7 @@ export const customTooltip = (fixedRadius: number) => ({
           ctx.arc(xPos, yPos, drawRadius, 0, 2 * Math.PI, false);
           ctx.strokeStyle = darken(elementDataset.backgroundColor, 0.1);
           ctx.lineWidth = 3;
-          ctx.setLineDash([5, 5]);
+          ctx.setLineDash([3, 3]);
           ctx.stroke();
           ctx.restore();
         }
