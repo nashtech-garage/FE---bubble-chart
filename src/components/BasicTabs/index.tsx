@@ -26,8 +26,9 @@ function BasicTabs() {
 
   const updateData = (data: DataType[]) => {
     localStorage.setItem(LOCAL_STORAGE.CHART, JSON.stringify(data));
-    setDataTooltip(undefined);
     setData(data);
+    //reset tooltip panel when updated data
+    setDataTooltip(undefined);
   };
 
   useEffect(() => {
