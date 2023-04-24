@@ -1,6 +1,6 @@
 export const extraCircle = (fixedRadius: number) => ({
   id: "drawExtraCircle",
-  afterDatasetsDraw: function (chart: any, easing: any) {
+  beforeDatasetsDraw: function (chart: any, easing: any) {
     const ctx = chart.ctx;
     const allData = chart.data.datasets.flatMap((dataset: any) => dataset.data);
     const maxTarget = Math.max(...allData.map((data: any) => data.target));
@@ -73,7 +73,7 @@ export const extraCircle = (fixedRadius: number) => ({
             ctx.arc(xPos, yPos, drawRadius, 0, 2 * Math.PI, false);
             ctx.strokeStyle = data.highlighted ? "#ff1744" : "#385994";
             ctx.lineWidth = 1;
-            ctx.setLineDash([5, 5]); // Set the line dash style
+            ctx.setLineDash([3, 3]);
             ctx.stroke();
             ctx.restore();
 
