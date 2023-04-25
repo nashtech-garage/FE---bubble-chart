@@ -44,9 +44,13 @@ function Setting() {
   const [type, setType] = useState<string>("");
   const [color, setColor] = useState<string>("");
   const [highlight, setHighlight] = useState<string>("");
+  const [title, setTitle] = useState<string>("");
+  // const [title, setHighlight] = useState<string>("");
+  // const [highlight, setHighlight] = useState<string>("");
   const handleOpen = () => {
     const defaultValue = NoteType[0];
     setOpen(true);
+    setTitle(chartColor.label.title);
     setHighlight(chartColor.highlight);
     setType(defaultValue.type);
     setColor(defaultValue.color);
@@ -57,16 +61,28 @@ function Setting() {
   };
 
   const updateData = () => {
+    const isChanged =
+      JSON.stringify(chartColor) !== JSON.stringify(getChartColor);
+    if (isChanged) {
+      window.location.reload();
+    }
     localStorage.setItem(LOCAL_STORAGE.CHART_COLOR, JSON.stringify(chartColor));
-    window.location.reload();
     setOpen(false);
   };
 
   const onCompleteChangeColor = (e: any, property: string) => {
-    let newColor = {};
+    let newColor: any = chartColor;
     switch (property) {
+      case "title": {
+        newColor = {
+          ...chartColor,
+          label: { ...chartColor.label, title: e.hex },
+        };
+        break;
+      }
       case "highlight": {
         newColor = { ...chartColor, highlight: e.hex };
+        break;
       }
     }
     return setChartColor(newColor);
@@ -135,7 +151,17 @@ function Setting() {
               Dotted color: <ColorPicker defaultColor={color} />
             </div>
             <div style={lineStyle}>
-              Label color: <ColorPicker defaultColor={color} />
+              Title color:{" "}
+              <ColorPicker
+                onComplete={(e) => onCompleteChangeColor(e, "title")}
+                defaultColor={title}
+              />
+            </div>
+            <div style={lineStyle}>
+              Got Skill color: <ColorPicker defaultColor={color} />
+            </div>
+            <div style={lineStyle}>
+              Plan color: <ColorPicker defaultColor={color} />
             </div>
             <div style={lineStyle}>
               Number detail color: <ColorPicker defaultColor={color} />

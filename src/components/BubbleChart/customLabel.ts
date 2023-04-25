@@ -1,5 +1,8 @@
 import { wrapText } from "../../utilities";
-import { COLOR_CHART_ANNOTATIONS } from "../../constants";
+import { COLOR_CHART_ANNOTATIONS, LOCAL_STORAGE } from "../../constants";
+
+const getChartColor: any = localStorage.getItem(LOCAL_STORAGE.CHART_COLOR);
+const chartColor = JSON.parse(getChartColor);
 
 export const customLabel = (fixedRadius: number) => ({
   id: "customLabel",
@@ -28,7 +31,7 @@ export const customLabel = (fixedRadius: number) => ({
             y: yPos - fixedRadius / 2 + 5,
           };
           ctx.font = "9px Arial";
-          ctx.fillStyle = "black";
+          ctx.fillStyle = chartColor?.label.title || "black";
           ctx.textAlign = "center";
           wrapText(ctx, data.label, xPos, startPosition.y, fixedRadius * 2, 9);
           if (

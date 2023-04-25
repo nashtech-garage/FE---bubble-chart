@@ -91,7 +91,9 @@ export const betweenCircles = (fixedRadius: number) => ({
             ctx.lineTo(startArrowBelowX, startArrowBelowY);
 
             ctx.font = "10px Arial";
-            ctx.fillStyle = data.highlighted ? "#ff1744" : "black";
+            ctx.fillStyle = data.highlighted
+              ? chartColor?.highlight || "#ff1744"
+              : chartColor?.dotted || "black";
             ctx.textAlign = "center";
             ctx.fillText(
               `+${data.target}`,
