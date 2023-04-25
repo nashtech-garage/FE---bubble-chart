@@ -13,7 +13,7 @@ import TooltipPanel from "../TooltipPanel";
 import { LOCAL_STORAGE, TAB_LABELS } from "../../constants";
 import Setting from "../Setting";
 import { generateChartData } from "../../transformData";
-import BubbleNode from "../BubbleNode";
+// import BubbleNode from "../BubbleNode";
 import BubbleChartHTML from "../BubbleChartHTML";
 
 function BasicTabs() {

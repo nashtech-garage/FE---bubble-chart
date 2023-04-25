@@ -13,7 +13,9 @@ const TooltipPanel = (elementData: any) => {
       <Box>
         <Paper variant="outlined">
           <AppBar position="static" sx={{ backgroundColor: bgColor }}>
-            <Heading variant="h2">{panel?.label}</Heading>
+            <Heading variant="h2">
+              {panel?.label ? panel.label : panel.name}
+            </Heading>
           </AppBar>
           <List component="ul" sx={listStyled}>
             <ListItem color="text.primary">
