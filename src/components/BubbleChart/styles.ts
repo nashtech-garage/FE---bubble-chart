@@ -1,2 +1,1 @@
-export const chartStyle = { border: "2px solid" }
-
+export const chartStyle = { border: "1px solid" };

@@ -11,12 +11,11 @@ import { useColorScheme } from "@mui/material/styles";
 import { Box } from "@mui/system";
 import { customTooltip } from "./customTooltip";
 import { customLabel } from "./customLabel";
-import { highlightedCircle } from "./highlightedCircle";
 import { extraCircle } from "./extraCircle";
+import { chartStyle } from "./styles";
 
 import annotationPlugin from "chartjs-plugin-annotation";
 import { annotations } from "./annotation";
-import { canvasBackground } from "./canvasBg";
 import { betweenCircles } from "./betweenCircles";
 
 const handleDataSet = (data: any) => {
@@ -85,9 +84,6 @@ function BubbleChart({ propsData }: any) {
     legend: {
       position: "bottom",
     },
-    customCanvasBackgroundColor: {
-      color: "grey",
-    },
     annotation: annotations(isDarkMode),
     tooltip: {
       enabled: false,
@@ -102,15 +98,13 @@ function BubbleChart({ propsData }: any) {
   const datasets: any[] = useMemo(() => handleDataSet(propsData), [propsData]);
 
   ChartJS.register(
-    canvasBackground,
     extraCircle(fixedRadius),
     customTooltip(fixedRadius),
-    highlightedCircle(fixedRadius),
     customLabel(fixedRadius),
     betweenCircles(fixedRadius),
+    PointElement,
     annotationPlugin,
     LinearScale,
-    PointElement,
     Tooltip,
     Legend
   );
@@ -126,7 +120,7 @@ function BubbleChart({ propsData }: any) {
   };
 
   return (
-    <Box>
+    <Box sx={chartStyle}>
       <Bubble options={options} data={data} />
     </Box>
   );

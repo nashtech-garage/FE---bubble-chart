@@ -1,6 +1,6 @@
 export const betweenCircles = (fixedRadius: number) => ({
   id: "betweenCircles",
-  afterDatasetsDraw: function (chart: any, easing: any) {
+  beforeDatasetsDraw: function (chart: any, easing: any) {
     const ctx = chart.ctx;
     const allData = chart.data.datasets.flatMap((dataset: any) => dataset.data);
     const maxTarget = Math.max(...allData.map((data: any) => data.target));
