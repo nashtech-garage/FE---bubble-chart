@@ -1,4 +1,4 @@
-import { DataChildType, DataChildTypeExt } from "./dataTable"
+import { DataChildTypeExt } from "./dataTable"
 
 
 export interface BubbleNodeType {
@@ -7,6 +7,7 @@ export interface BubbleNodeType {
 
 }
 export interface BubbleNodeProps {
+    hoverId: string | null,
     bubbleData: DataChildTypeExt,
     onHover: () => void,
     onMouseLeave: () => void,

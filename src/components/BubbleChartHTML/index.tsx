@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BubbleChartHTMLProps } from "../../models/bubbleNode";
 import { Box } from "@mui/material";
 import BubbleNode from "../BubbleNode";
 import { DataChildType } from "../../models";
-import { generateChartDataExt, generateGridRows } from "../../transformData";
-import { hover } from "./styles";
+import { generateChartDataExt } from "../../transformData";
 
 export default function BubbleChartHTML({
   options,
@@ -13,25 +12,23 @@ export default function BubbleChartHTML({
   const [bubbles, setBubbles] = useState<DataChildType[]>(
     generateChartDataExt(dataset)
   );
-  const [isHover, setHover] = useState(false);
-  /*  useEffect(() => {
-    console.log(bubbles);
-  }); */
-  const handleHover = () => {
-    setHover(true);
+
+  const [hoverId, setHoverId] = useState(null);
+
+  const handleHover = (id: any) => {
+    setHoverId(id);
   };
   const handleLeave = () => {
-    setHover(false);
+    setHoverId(null);
   };
   return (
     <Box
-      className={isHover ? "hover" : ""}
+      className={hoverId ? "hover" : ""}
       sx={{
         position: "relative",
         zIndex: "1",
         border: "1px solid red",
         height: "80vh",
-        ...hover,
       }}
     >
       {bubbles &&
@@ -39,8 +36,9 @@ export default function BubbleChartHTML({
           <BubbleNode
             key={`bubble-${i}`}
             bubbleData={bubble}
-            onHover={handleHover}
+            onHover={() => handleHover(bubble.id)}
             onMouseLeave={handleLeave}
+            hoverId={hoverId}
           />
         ))}
     </Box>

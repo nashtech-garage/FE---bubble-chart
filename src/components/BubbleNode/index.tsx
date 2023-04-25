@@ -1,10 +1,11 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, darken } from "@mui/material";
 import { useState } from "react";
 import { nodeBeforeStyle, nodeLabel, nodeStyle } from "./styles";
 import { BubbleNodeProps } from "../../models/bubbleNode";
 import { ColorTranslator, Harmony, Mix } from "colortranslator";
 
 export default function BubbleNode({
+  hoverId,
   bubbleData,
   onHover,
   onMouseLeave,
@@ -19,6 +20,14 @@ export default function BubbleNode({
     onMouseLeave();
   };
 
+  const getBGColor = () => {
+    if (!hoverId) return bubbleData.color;
+
+    return hoverId === bubbleData.id
+      ? bubbleData.color
+      : darken(bubbleData.color, 0.4);
+  };
+
   return (
     <Box
       className={isHover ? "bubbleNode bubbleNodeHover" : "bubbleNode "}
@@ -31,9 +40,10 @@ export default function BubbleNode({
         padding: `80px`,
         "&:before": {
           ...nodeBeforeStyle,
-          backgroundColor: bubbleData.color,
+          backgroundColor: getBGColor(),
         },
       }}
+      data-type={bubbleData.type}
     >
       <Typography sx={nodeLabel}>
         Lorem Ipsum (<span>10</span> <span>+10</span> <span>/10</span> )

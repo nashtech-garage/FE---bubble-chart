@@ -50,5 +50,7 @@ export const nodeLabel = {
     maxWidth: "30%",
     "span": {
 
-    }
+    },
+
+
 }
