@@ -9,8 +9,9 @@ export const HEADERNAME = {
     PLAN: 'Plan',
     POSITION_X: 'Innovation',
     POSITION_Y: 'Opportunity',
-    ACTIONS: 'Actions',
+    ACTIONS: 'Action',
     ADDED_TYPE: 'Added Type',
+    HIGHLIGHT: 'Highlighted',
 }
 
 export const NEW_ITEM = {

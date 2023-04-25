@@ -102,6 +102,16 @@ export const defineColumns = (data: DataType[]) => {
     max: 100,
   };
 
+  const HighlightField = {
+    field: "highlighted",
+    headerName: HEADERNAME.HIGHLIGHT,
+    type: "boolean",
+    editable: true,
+    align: "center",
+    flex: 1,
+    sortable: false,
+  };
+
   return {
     typeField,
     nameField,
@@ -112,5 +122,6 @@ export const defineColumns = (data: DataType[]) => {
     LMField,
     XField,
     YField,
+    HighlightField,
   };
 };

@@ -1,10 +1,8 @@
-import * as React from "react";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import { IconButton } from "@mui/material";
 import { DataType } from "../../models";
 import moment from "moment";
 import { generateExportData } from "../../transformData";
-import { LOCAL_STORAGE } from "../../constants";
 
 export interface ExportButtonProps {
   data: DataType[];
