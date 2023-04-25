@@ -44,7 +44,6 @@ export const nodeLabel = {
   fontSize: "0.7rem",
   lineHigh: "1",
   maxWidth: "30%",
-  span: {},
 };
 export const arrowStyle = {
   position: "absolute",
