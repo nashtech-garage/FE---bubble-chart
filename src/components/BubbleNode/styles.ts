@@ -38,7 +38,6 @@ export const nodeLabel = {
   fontSize: "0.7rem",
   lineHigh: "1",
   maxWidth: "30%",
-  span: {},
   pointerEvents: "none",
 };
 export const arrowStyle = {
