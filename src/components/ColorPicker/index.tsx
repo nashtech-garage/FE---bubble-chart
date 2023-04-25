@@ -1,10 +1,10 @@
 import { Box } from "@mui/system";
-import { useState } from "react";
-import { CompactPicker } from "react-color";
+import { useState, useEffect } from "react";
+import { SwatchesPicker } from "react-color";
 import { popover, cover } from "./styles";
 
 interface ColorPickerProps {
-  onComplete: (color: any) => void;
+  onComplete?: (color: any) => void;
   defaultColor: string;
 }
 
@@ -14,6 +14,10 @@ export default function ColorPicker({
 }: ColorPickerProps) {
   const [displayColorPicker, setDisplayColorPicker] = useState<boolean>(false);
   const [selectedColor, setColor] = useState<string>(defaultColor);
+
+  useEffect(() => {
+    setColor(defaultColor);
+  }, [defaultColor]);
 
   const handleClick = () => {
     setDisplayColorPicker(!displayColorPicker);
@@ -32,8 +36,12 @@ export default function ColorPicker({
       <Box
         className="colorBox"
         sx={{
-          minWidth: 30,
-          minHeight: 30,
+          marginLeft: "10px",
+          width: "80px",
+          height: "30px",
+          border: "5px solid white",
+          borderRadius: "5px",
+          boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
           backgroundColor: selectedColor,
         }}
         onClick={handleClick}
@@ -41,7 +49,7 @@ export default function ColorPicker({
       {displayColorPicker ? (
         <Box sx={popover}>
           <Box sx={cover} onClick={handleClose} />
-          <CompactPicker
+          <SwatchesPicker
             onChangeComplete={onComplete}
             onChange={handleChange}
           />

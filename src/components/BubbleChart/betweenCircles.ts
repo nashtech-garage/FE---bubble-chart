@@ -1,3 +1,8 @@
+import { LOCAL_STORAGE } from "../../constants";
+
+const getChartColor: any = localStorage.getItem(LOCAL_STORAGE.CHART_COLOR);
+const chartColor = JSON.parse(getChartColor);
+
 export const betweenCircles = (fixedRadius: number) => ({
   id: "betweenCircles",
   beforeDatasetsDraw: function (chart: any, easing: any) {
@@ -69,7 +74,9 @@ export const betweenCircles = (fixedRadius: number) => ({
 
           if (data.target > 0) {
             ctx.beginPath();
-            ctx.strokeStyle = data.highlighted ? "#ff1744" : "#385994";
+            ctx.strokeStyle = data.highlighted
+              ? chartColor?.highlight || "#ff1744"
+              : chartColor?.dotted || "#385994";
             ctx.lineWidth = 1;
             ctx.moveTo(xPos + fixedRadius, yPos);
             ctx.lineTo(xPos + drawRadius, yPos);

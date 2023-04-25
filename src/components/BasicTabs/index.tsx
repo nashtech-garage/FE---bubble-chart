@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Tab, Box, Grid } from "@mui/material";
 import { TabList, TabPanel, TabContext } from "@mui/lab";
-import { mockData } from "../../assets/dummy/mockData";
+import { chartColor, mockData } from "../../assets/dummy/mockData";
 import { chartStyle, tabStyle } from "./styles";
 import { DataType, ElementData } from "../../models";
 import BubbleChart from "../BubbleChart";
@@ -42,11 +42,15 @@ function BasicTabs() {
   }, []);
 
   useEffect(() => {
+    //Get data from localStorage
     const localStorageDataChart = localStorage.getItem(LOCAL_STORAGE.CHART);
     const localStorageActiveTab = localStorage.getItem(
       LOCAL_STORAGE.ACTIVE_TAB
     );
-
+    const localStorageChartColor = localStorage.getItem(
+      LOCAL_STORAGE.CHART_COLOR
+    );
+    //Set data
     if (typeof localStorageDataChart !== "string") {
       localStorage.setItem(
         LOCAL_STORAGE.CHART,
@@ -54,7 +58,15 @@ function BasicTabs() {
       );
     }
     localStorageDataChart && setData(JSON.parse(localStorageDataChart));
-
+    //Set chart color
+    if (typeof localStorageChartColor !== "string") {
+      localStorage.setItem(
+        LOCAL_STORAGE.CHART_COLOR,
+        JSON.stringify(chartColor)
+      );
+    }
+    localStorageChartColor && setValue(localStorageChartColor);
+    //Set active tab
     if (typeof localStorageActiveTab !== "string") {
       localStorage.setItem(LOCAL_STORAGE.ACTIVE_TAB, "1");
     }
