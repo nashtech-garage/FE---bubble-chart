@@ -15,5 +15,5 @@ export interface BubbleNodeProps {
 }
 export interface BubbleChartHTMLProps {
   options?: any;
-  dataset: any[];
+  dataSets: any[];
 }

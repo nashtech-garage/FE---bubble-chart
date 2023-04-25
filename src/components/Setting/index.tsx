@@ -1,5 +1,6 @@
 import { IconButton, Modal, Typography, Box } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
+import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
 
@@ -15,7 +16,7 @@ const style = {
   p: 4,
 };
 
-function Setting() {
+function Setting({ captureChart }: any) {
   const [open, setOpen] = useState<boolean>(false);
   const handleOpen = () => setOpen(true);
   const handleClose = (event: any, reason: any) => {
@@ -26,6 +27,9 @@ function Setting() {
     <>
       <IconButton aria-label="export" onClick={handleOpen}>
         <SettingsIcon />
+      </IconButton>
+      <IconButton aria-label="capture" onClick={captureChart}>
+        <CameraAltIcon />
       </IconButton>
       <Modal
         open={open}

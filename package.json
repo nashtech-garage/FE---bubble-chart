@@ -22,6 +22,7 @@
     "chartjs-plugin-datalabels": "^2.2.0",
     "colortranslator": "^1.10.2",
     "faker": "^6.6.6",
+    "html-to-image": "^1.11.11",
     "latest": "^0.2.0",
     "moment": "^2.29.4",
     "react": "^18.2.0",

@@ -1,26 +1,29 @@
-import { useEffect, useLayoutEffect, useState, useRef, useMemo } from "react";
-import { BubbleChartHTMLProps } from "../../models/bubbleNode";
 import { Box } from "@mui/material";
+import { useEffect, useLayoutEffect, useState, useRef, useMemo } from "react";
+
+import { BubbleChartHTMLProps } from "../../models/bubbleNode";
 import BubbleNode from "../BubbleNode";
 import { DataChildType } from "../../models";
 import { generateChartDataExt } from "../../transformData";
+import { legendSection } from "./styles";
+import LegendButton from "../LegendButton";
+import Quadrant from "../Quadrant";
+import ScalesXY from "../ScalesXY";
 
-export default function BubbleChartHTML({
-  options,
-  dataset,
-}: BubbleChartHTMLProps) {
+const BubbleChartHTML = ({ options, dataSets }: BubbleChartHTMLProps) => {
+  const dataTypes = dataSets.map((dataSet) => dataSet.type);
   const [bubbles, setBubbles] = useState<DataChildType[]>(
-    generateChartDataExt(dataset)
+    generateChartDataExt(dataSets)
   );
+  const [showTypes, setShowTypes] = useState(dataTypes);
   const [hoverId, setHoverId] = useState(null);
-  /*  useEffect(() => {
-    console.log(bubbles);
-  }); */
-  const ref = useRef<any>(null);
-  const [width, setWidth] = useState(0);
+
+  const chartRef = useRef<any>(null);
+
+  const [chartWidth, setChartWidth] = useState(0);
 
   useLayoutEffect(() => {
-    if (ref.current) setWidth(ref.current.offsetWidth);
+    if (chartRef.current) setChartWidth(chartRef.current.offsetWidth);
   }, []);
 
   const maxTarget = useMemo(
@@ -29,6 +32,13 @@ export default function BubbleChartHTML({
   );
   const defaultTarget = Math.round(maxTarget / 2);
 
+  const handleDatasetToggle = (type: string) => {
+    if (showTypes.includes(type)) {
+      setShowTypes(showTypes.filter((t) => t !== type));
+    } else {
+      setShowTypes([...showTypes, type]);
+    }
+  };
   const handleHover = (id: any) => {
     setHoverId(id);
   };
@@ -37,28 +47,51 @@ export default function BubbleChartHTML({
   };
   return (
     <Box
-      ref={ref}
+      ref={chartRef}
       className={hoverId ? "hover" : ""}
       sx={{
+        backgroundColor: "white",
         position: "relative",
         zIndex: "1",
-        border: "1px solid red",
+        border: "1px solid rgba(1,1,1,0.25)",
         height: "80vh",
       }}
     >
-      {bubbles &&
-        bubbles.map((bubble: any, i: number) => (
-          <BubbleNode
-            key={`bubble-${i}`}
-            bubbleData={bubble}
-            onHover={() => handleHover(bubble.id)}
-            onMouseLeave={handleLeave}
-            hoverId={hoverId}
-            maxTarget={maxTarget}
-            defaultTarget={defaultTarget}
-            chartSize={width}
+      {/* ScalesXY */}
+      <ScalesXY />
+      {/* Quadrants */}
+      <Quadrant />
+      {/* Bubbles */}
+      {showTypes.map((type) => (
+        <div key={type}>
+          {bubbles &&
+            bubbles
+              .filter((bubble) => bubble.type === type)
+              .map((bubble: any, i: number) => (
+                <BubbleNode
+                  key={`bubble-${i}`}
+                  bubbleData={bubble}
+                  onHover={() => handleHover(bubble.id)}
+                  onMouseLeave={handleLeave}
+                  hoverId={hoverId}
+                  maxTarget={maxTarget}
+                  defaultTarget={defaultTarget}
+                  chartSize={chartWidth}
+                />
+              ))}
+        </div>
+      ))}
+      {/* Legends */}
+      <Box sx={legendSection}>
+        {dataSets.map((dataSet) => (
+          <LegendButton
+            key={dataSet.id}
+            dataSet={dataSet}
+            handleToggle={handleDatasetToggle}
           />
         ))}
+      </Box>
     </Box>
   );
-}
+};
+export default BubbleChartHTML;
