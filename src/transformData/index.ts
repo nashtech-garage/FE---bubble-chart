@@ -1,4 +1,4 @@
-import { DataChildType, DataType } from "../models";
+import { DataChildType, DataChildTypeExt, DataType } from "../models";
 
 const generateChartData = (data: DataType[]) =>
   data.map((item: DataType) => {
@@ -31,4 +31,19 @@ const generateGridRows = (data: DataType[]) => {
   return rows;
 };
 
-export { generateChartData, generateExportData, generateGridRows };
+
+const generateChartDataExt = (data: DataType[]) => {
+  let rows: DataChildTypeExt[] = [];
+  data.map((item) =>
+    item.data.map((dataItem: any) =>
+      rows.push({
+        ...dataItem,
+        type: item.type,
+        color: item.color
+      })
+    )
+  );
+  return rows;
+};
+
+export { generateChartData, generateExportData, generateGridRows, generateChartDataExt };

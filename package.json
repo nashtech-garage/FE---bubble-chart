@@ -20,6 +20,7 @@
     "chart.js": "^4.2.1",
     "chartjs-plugin-annotation": "^2.2.1",
     "chartjs-plugin-datalabels": "^2.2.0",
+    "colortranslator": "^1.10.2",
     "faker": "^6.6.6",
     "latest": "^0.2.0",
     "moment": "^2.29.4",

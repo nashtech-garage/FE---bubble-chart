@@ -12,6 +12,10 @@ export interface DataChildType {
     YTD: number;
     highlighted?: boolean
 }
+export interface DataChildTypeExt extends DataChildType {
+
+    color: string
+}
 
 export interface DataType {
     color: string;

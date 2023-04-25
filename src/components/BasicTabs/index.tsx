@@ -13,6 +13,8 @@ import TooltipPanel from "../TooltipPanel";
 import { LOCAL_STORAGE, TAB_LABELS } from "../../constants";
 import Setting from "../Setting";
 import { generateChartData } from "../../transformData";
+import BubbleNode from "../BubbleNode";
+import BubbleChartHTML from "../BubbleChartHTML";
 
 function BasicTabs() {
   const [value, setValue] = useState<string>("");
@@ -67,12 +69,26 @@ function BasicTabs() {
         <TabContext value={value}>
           <Box sx={tabStyle}>
             <TabList onChange={handleChange}>
+              <Tab label={TAB_LABELS.CHART + " NEW"} value="0" />
               <Tab label={TAB_LABELS.CHART} value="1" />
               {/* <Tab label="Master Data" value="2" /> */}
               <Tab label={TAB_LABELS.DATA} value="2" />
             </TabList>
           </Box>
           <Box sx={chartStyle}>
+            <TabPanel value="0">
+              <Grid container spacing={2}>
+                <Grid item xs={10}>
+                  <BubbleChartHTML dataset={data} />
+                </Grid>
+                <Grid item xs={2}>
+                  <Setting />
+                  {dataTooltip?.elementData && (
+                    <TooltipPanel elementData={dataTooltip} />
+                  )}
+                </Grid>
+              </Grid>
+            </TabPanel>
             <TabPanel value="1">
               <Grid container spacing={2}>
                 <Grid item xs={10}>
