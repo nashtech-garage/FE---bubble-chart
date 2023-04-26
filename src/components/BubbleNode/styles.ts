@@ -21,12 +21,12 @@ export const nodeBeforeStyle = {
   display: "block",
   position: "absolute",
   zIndex: "2",
-  background: " #bebebe",
   borderRadius: "50%",
   left: "50%",
   top: "50%",
   transform: "translate(-50%, -50%)",
   transition: "all .3s ease-in",
+  border: "1px solid"
 };
 export const nodeLabel = {
   position: "absolute",
@@ -46,16 +46,16 @@ export const arrowStyle = {
   right: "0",
   borderTop: `1px solid ${ANNOTATIONS.MAIN_COLOR}`,
   display: "flex",
-  textAlign: "center",
   aligItems: "center",
-  justifyContent: "space-between",
   "& svg": {
     color: ANNOTATIONS.MAIN_COLOR,
     marginTop: "-12px",
+    position: "absolute"
   },
   "& span ": {
     fontSize: "0.625rem",
-    position: "absolute"
+    position: "absolute",
+    width: "100%"
   }
 };
 export const arrowStyleLeft = {
@@ -64,4 +64,5 @@ export const arrowStyleLeft = {
 }
 export const arrowStyleRight = {
   marginRight: "-9px",
+  right: "0"
 }

@@ -1,5 +1,5 @@
 import { Box, Typography, darken } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   nodeBeforeStyle,
   nodeLabel,
@@ -22,12 +22,12 @@ export default function BubbleNode({
   defaultTarget,
   chartSize,
   maxTarget,
+  chartColor,
 }: BubbleNodeProps) {
   const [isHover, setHover] = useState(false);
   const [fixedRadius] = useState(120);
+
   //Chart color
-  const getChartColor: any = localStorage.getItem(LOCAL_STORAGE.CHART_COLOR);
-  const chartColor = JSON.parse(getChartColor);
   const dottedColor = bubbleData.highlighted
     ? chartColor?.highlight || "red"
     : chartColor?.dotted || "black";
@@ -67,7 +67,7 @@ export default function BubbleNode({
 
     return hoverId === bubbleData.id
       ? bubbleData.color
-      : darken(bubbleData.color, 0.15);
+      : darken(bubbleData.color, 0.3);
   };
   const base = bubbleData.target / maxTarget;
   const radius = (chartSize / 24) * base;
@@ -76,8 +76,6 @@ export default function BubbleNode({
     bubbleData.target <= defaultTarget
       ? dfRadius + fixedRadius / 2
       : radius + fixedRadius / 2;
-
-  const scale = drawRadius / (fixedRadius / 2);
 
   return (
     <Box
@@ -100,7 +98,7 @@ export default function BubbleNode({
         "&:hover": {
           zIndex: "10",
           "&:before": {
-            transform: `translate(-50%, -50%) scale(${scale})`,
+            transform: `translate(-50%, -50%)`,
             zIndex: "10",
           },
         },
@@ -130,6 +128,7 @@ export default function BubbleNode({
             ...arrowStyleRight,
           }}
         />
+
         <span>+{bubbleData.target}</span>
       </Box>
     </Box>

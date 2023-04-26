@@ -34,7 +34,7 @@ const lineStyle = {
   margin: "30px 0",
 };
 
-function Setting({ dataSets, captureChart }: any) {
+function Setting({ dataSets, captureChart, updateColor }: any) {
   const getChartColor = JSON.parse(
     localStorage.getItem(LOCAL_STORAGE.CHART_COLOR) || ""
   );
@@ -74,6 +74,7 @@ function Setting({ dataSets, captureChart }: any) {
 
   const updateData = () => {
     localStorage.setItem(LOCAL_STORAGE.CHART_COLOR, JSON.stringify(chartColor));
+    updateColor(chartColor);
     setOpen(false);
   };
 
