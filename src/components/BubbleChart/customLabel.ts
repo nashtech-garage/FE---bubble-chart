@@ -8,6 +8,7 @@ export const customLabel = (fixedRadius: number) => ({
   id: "customLabel",
   afterDatasetsDraw: function (chart: any) {
     const ctx = chart.ctx;
+    const titleColor = chartColor?.label.title || "black";
 
     chart.data.datasets.forEach((dataset: any, datasetIndex: any) => {
       const meta = chart.getDatasetMeta(datasetIndex);
@@ -31,7 +32,7 @@ export const customLabel = (fixedRadius: number) => ({
             y: yPos - fixedRadius / 2 + 5,
           };
           ctx.font = "9px Arial";
-          ctx.fillStyle = chartColor?.label.title || "black";
+          ctx.fillStyle = titleColor;
           ctx.textAlign = "center";
           wrapText(ctx, data.label, xPos, startPosition.y, fixedRadius * 2, 9);
           if (

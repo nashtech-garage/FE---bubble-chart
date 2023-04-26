@@ -18,6 +18,9 @@ export const betweenCircles = (fixedRadius: number) => ({
       if (chart.isDatasetVisible(datasetIndex)) {
         meta.data.forEach((element: any, index: any) => {
           const data = dataset.data[index];
+          const betweenCirclesColor = data.highlighted
+            ? chartColor?.highlight || "#ff1744"
+            : chartColor?.dotted || "#385994";
           const xPos = element.x;
           const yPos = element.y;
           const base = data.target / maxTarget;
@@ -74,9 +77,7 @@ export const betweenCircles = (fixedRadius: number) => ({
 
           if (data.target > 0) {
             ctx.beginPath();
-            ctx.strokeStyle = data.highlighted
-              ? chartColor?.highlight || "#ff1744"
-              : chartColor?.dotted || "#385994";
+            ctx.strokeStyle = betweenCirclesColor;
             ctx.lineWidth = 1;
             ctx.moveTo(xPos + fixedRadius, yPos);
             ctx.lineTo(xPos + drawRadius, yPos);
@@ -91,9 +92,7 @@ export const betweenCircles = (fixedRadius: number) => ({
             ctx.lineTo(startArrowBelowX, startArrowBelowY);
 
             ctx.font = "10px Arial";
-            ctx.fillStyle = data.highlighted
-              ? chartColor?.highlight || "#ff1744"
-              : chartColor?.dotted || "black";
+            ctx.fillStyle = betweenCirclesColor;
             ctx.textAlign = "center";
             ctx.fillText(
               `+${data.target}`,
