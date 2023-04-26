@@ -3,32 +3,39 @@ import { Box } from "@mui/system";
 import { ADDED_TYPES, COLOR_CHART_ANNOTATIONS } from "../../constants";
 import { Heading, listStyled } from "./styles";
 
-const TooltipPanel = (elementData: any) => {
-  const data = elementData.elementData;
-  const panel = data.elementData;
-  const bgColor = data.bgColor;
+const TooltipPanel = ({ elementData, chartColor }: any) => {
+  const panel = elementData.elementData;
+  const bgColor = elementData.bgColor;
+
+  const gotSkillColor =
+    chartColor?.label.gotSkill || COLOR_CHART_ANNOTATIONS.GOTSKILL;
+  const ytdColor = chartColor?.label.ytd || COLOR_CHART_ANNOTATIONS.YTD;
+  const finishedColor =
+    chartColor?.label.finished || COLOR_CHART_ANNOTATIONS.FINISHED;
+  const ongoingColor =
+    chartColor?.label.onGoing || COLOR_CHART_ANNOTATIONS.ONGOING;
+  const planColor = chartColor?.label.plan || COLOR_CHART_ANNOTATIONS.PLAN;
+
   return (
     <>
       <Box>
         <Paper variant="outlined">
           <AppBar position="static" sx={{ backgroundColor: bgColor }}>
-            <Heading variant="h2">
-              {panel?.label ? panel.label : panel.name}
-            </Heading>
+            <Heading variant="h2">{panel.name}</Heading>
           </AppBar>
           <List component="ul" sx={listStyled}>
-            <ListItem color="text.primary">
+            <ListItem sx={{ color: gotSkillColor }}>
               <ListItemText primary="GotSkill:" />
               <ListItemText
                 primary={panel?.gotSkill > 0 ? panel?.gotSkill : 0}
               />
             </ListItem>
 
-            <ListItem sx={{ color: COLOR_CHART_ANNOTATIONS.PLAN }}>
+            <ListItem sx={{ color: planColor }}>
               <ListItemText primary="Plan:" />
               <ListItemText primary={panel?.target > 0 ? panel?.target : 0} />
             </ListItem>
-            <ListItem sx={{ color: COLOR_CHART_ANNOTATIONS.YTD }}>
+            <ListItem sx={{ color: ytdColor }}>
               <ListItemText primary="Added (YTD):" />
               <ListItemText primary={panel?.YTD > 0 ? panel?.YTD : 0} />
             </ListItem>
@@ -36,8 +43,8 @@ const TooltipPanel = (elementData: any) => {
               sx={{
                 color:
                   panel?.addedType === ADDED_TYPES.FINISHED
-                    ? COLOR_CHART_ANNOTATIONS.FINISHED
-                    : COLOR_CHART_ANNOTATIONS.ONGOING,
+                    ? finishedColor
+                    : ongoingColor,
               }}
             >
               <ListItemText primary="Added (LM):" />

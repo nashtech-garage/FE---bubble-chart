@@ -25,8 +25,8 @@ export const nodeBeforeStyle = {
   left: "50%",
   top: "50%",
   transform: "translate(-50%, -50%)",
-  transition: "all .3s ease-in",
-  border: "1px solid"
+  transition: "all .05s ease-in",
+  border: "1px solid",
 };
 export const nodeLabel = {
   position: "absolute",
@@ -50,19 +50,18 @@ export const arrowStyle = {
   "& svg": {
     color: ANNOTATIONS.MAIN_COLOR,
     marginTop: "-12px",
-    position: "absolute"
+    position: "absolute",
   },
   "& span ": {
     fontSize: "0.625rem",
     position: "absolute",
-    width: "100%"
-  }
+    width: "100%",
+  },
 };
 export const arrowStyleLeft = {
   marginLeft: "-9px",
-
-}
+};
 export const arrowStyleRight = {
   marginRight: "-9px",
-  right: "0"
-}
+  right: "0",
+};

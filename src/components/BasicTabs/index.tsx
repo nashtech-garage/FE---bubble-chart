@@ -121,7 +121,10 @@ function BasicTabs() {
                     updateColor={setChartColor}
                   />
                   {dataTooltip?.elementData && (
-                    <TooltipPanel elementData={dataTooltip} />
+                    <TooltipPanel
+                      chartColor={chartColor}
+                      elementData={dataTooltip}
+                    />
                   )}
                 </Grid>
               </Grid>
