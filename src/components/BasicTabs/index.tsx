@@ -109,7 +109,7 @@ function BasicTabs() {
                   </Box>
                 </Grid>
                 <Grid item xs={2}>
-                  <Setting captureChart={captureChart} />
+                  <Setting dataSets={data} captureChart={captureChart} />
                   {dataTooltip?.elementData && (
                     <TooltipPanel elementData={dataTooltip} />
                   )}

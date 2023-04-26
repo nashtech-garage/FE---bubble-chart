@@ -14,7 +14,6 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import CloseIcon from "@mui/icons-material/Close";
 import ColorPicker from "../ColorPicker";
-import { NoteType } from "../../assets/dummy/mockData";
 import { LOCAL_STORAGE } from "../../constants";
 
 const style = {
@@ -35,7 +34,7 @@ const lineStyle = {
   margin: "30px 0",
 };
 
-function Setting({ captureChart }: any) {
+function Setting({ dataSets, captureChart }: any) {
   const getChartColor = JSON.parse(
     localStorage.getItem(LOCAL_STORAGE.CHART_COLOR) || ""
   );
@@ -55,9 +54,10 @@ function Setting({ captureChart }: any) {
   const [highlight, setHighlight] = useState<string>("");
 
   const handleOpen = () => {
-    const defaultValue = NoteType[0];
     setOpen(true);
-    setType(defaultValue.type);
+    setTypes(chartColor.types);
+    setType(chartColor.types[0].type);
+    setColor(chartColor.types[0].color);
     setDotted(chartColor.dotted);
     setTitle(chartColor.label.title);
     setGotSkill(chartColor.label.gotSkill);
@@ -80,6 +80,20 @@ function Setting({ captureChart }: any) {
   const onCompleteChangeColor = (e: any, property: string) => {
     let newColor = {};
     switch (property) {
+      case "type": {
+        const changeColorTypes = types.map((i) => {
+          return {
+            type: i.type,
+            color: i.type === type ? e.hex : i.color,
+          };
+        });
+        setTypes(changeColorTypes);
+        newColor = {
+          ...chartColor,
+          types: changeColorTypes,
+        };
+        break;
+      }
       case "dotted": {
         newColor = {
           ...chartColor,
@@ -139,15 +153,16 @@ function Setting({ captureChart }: any) {
 
   const handleSelectedChange = (e: SelectChangeEvent) => {
     const type = e.target.value;
-    const colorByType = NoteType.find((i) => i.type === type)?.color || "red";
+    const colorByType = types.find((i) => i.type === type)?.color || "red";
     setType(type);
     setColor(colorByType);
   };
 
   useEffect(() => {
-    const getTypes = NoteType.map((i) => i.type);
-    setTypes(getTypes);
-  }, []);
+    const filtered = dataSets.filter((i: any) => i.data.length);
+    const types = filtered.map((i: any) => ({ type: i.type, color: i.color }));
+    setTypes(types);
+  }, [dataSets]);
 
   return (
     <>
@@ -176,7 +191,11 @@ function Setting({ captureChart }: any) {
           </Typography>
           <div style={{ margin: "10px 0" }}>
             <div style={lineStyle}>
-              Default color: <ColorPicker defaultColor={color} />
+              Default color:{" "}
+              <ColorPicker
+                onComplete={(e) => onCompleteChangeColor(e, "type")}
+                defaultColor={color}
+              />
               <FormControl
                 style={{ width: "125px", marginLeft: "10px", height: "40px" }}
               >
@@ -189,10 +208,10 @@ function Setting({ captureChart }: any) {
                   onChange={handleSelectedChange}
                 >
                   {types &&
-                    types.map((type, idx) => {
+                    types.map((item, idx) => {
                       return (
-                        <MenuItem key={idx} value={type}>
-                          {type}
+                        <MenuItem key={idx} value={item.type}>
+                          {item.type}
                         </MenuItem>
                       );
                     })}
