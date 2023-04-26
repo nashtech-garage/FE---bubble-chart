@@ -11,7 +11,11 @@ import Quadrant from "../Quadrant";
 import ScalesXY from "../ScalesXY";
 import NoteSection from "../NoteSection";
 
-const BubbleChartHTML = ({ options, dataSets }: BubbleChartHTMLProps) => {
+const BubbleChartHTML = ({
+  options,
+  dataSets,
+  chartColor,
+}: BubbleChartHTMLProps) => {
   const dataTypes = dataSets.map((dataSet) => dataSet.type);
   const [bubbles] = useState<DataChildType[]>(generateChartDataExt(dataSets));
   const [showTypes, setShowTypes] = useState(dataTypes);
@@ -77,6 +81,7 @@ const BubbleChartHTML = ({ options, dataSets }: BubbleChartHTMLProps) => {
                 .filter((bubble) => bubble.type === type)
                 .map((bubble: any, i: number) => (
                   <BubbleNode
+                    chartColor={chartColor}
                     key={`bubble-${i}`}
                     bubbleData={bubble}
                     onHover={() => handleHover(bubble.id)}
@@ -101,7 +106,7 @@ const BubbleChartHTML = ({ options, dataSets }: BubbleChartHTMLProps) => {
               />
             ))}
         </Box>
-        <NoteSection />
+        <NoteSection chartColor={chartColor} />
       </Box>
     </Box>
   );

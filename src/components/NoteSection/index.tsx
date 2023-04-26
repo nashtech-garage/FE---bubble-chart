@@ -2,9 +2,7 @@ import { Box, Typography } from "@mui/material";
 import { noteSection } from "./styles";
 import { COLOR_CHART_ANNOTATIONS, LOCAL_STORAGE } from "../../constants";
 
-const NoteSection = () => {
-  const getChartColor: any = localStorage.getItem(LOCAL_STORAGE.CHART_COLOR);
-  const chartColor = JSON.parse(getChartColor);
+const NoteSection = ({ chartColor }: any) => {
   const gotSkillColor =
     chartColor?.label.gotSkill || COLOR_CHART_ANNOTATIONS.GOTSKILL;
   const ytdColor = chartColor?.label.ytd || COLOR_CHART_ANNOTATIONS.YTD;

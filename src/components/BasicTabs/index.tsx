@@ -15,12 +15,18 @@ import { LOCAL_STORAGE, TAB_LABELS } from "../../constants";
 import Setting from "../Setting";
 import { generateChartData } from "../../transformData";
 import BubbleChartHTML from "../BubbleChartHTML";
+import moment from "moment";
 
 function BasicTabs() {
+  const getChartColor = JSON.parse(
+    localStorage.getItem(LOCAL_STORAGE.CHART_COLOR) || ""
+  );
+  const chartRef = useRef<any>(null);
+
   const [value, setValue] = useState<string>("");
   const [data, setData] = useState<DataType[]>([]);
   const [dataTooltip, setDataTooltip] = useState<ElementData>();
-  const chartRef = useRef<any>(null);
+  const [chartColor, setChartColor] = useState<any>(getChartColor);
 
   const handleChange = (event: any, newValue: string) => {
     localStorage.setItem(LOCAL_STORAGE.ACTIVE_TAB, newValue);
@@ -38,7 +44,7 @@ function BasicTabs() {
     const dataUrl = await htmlToImage.toPng(chartRef.current);
     // download image
     const link = document.createElement("a");
-    link.download = "chart.png";
+    link.download = `chart-${moment().format("MM-DD-YYYY-HH-mm-ss")}.png`;
     link.href = dataUrl;
     link.click();
   };
@@ -105,11 +111,14 @@ function BasicTabs() {
               <Grid container spacing={2}>
                 <Grid item xs={10}>
                   <Box ref={chartRef} sx={{ backgroundColor: "white" }}>
-                    <BubbleChartHTML dataSets={data} />
+                    <BubbleChartHTML chartColor={chartColor} dataSets={data} />
                   </Box>
                 </Grid>
                 <Grid item xs={2}>
-                  <Setting captureChart={captureChart} />
+                  <Setting
+                    captureChart={captureChart}
+                    updateColor={setChartColor}
+                  />
                   {dataTooltip?.elementData && (
                     <TooltipPanel elementData={dataTooltip} />
                   )}

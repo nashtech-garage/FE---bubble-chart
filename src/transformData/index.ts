@@ -31,7 +31,6 @@ const generateGridRows = (data: DataType[]) => {
   return rows;
 };
 
-
 const generateChartDataExt = (data: DataType[]) => {
   let rows: DataChildTypeExt[] = [];
   data.map((item) =>
@@ -39,11 +38,16 @@ const generateChartDataExt = (data: DataType[]) => {
       rows.push({
         ...dataItem,
         type: item.type,
-        color: item.color
+        color: item.color,
       })
     )
   );
   return rows;
 };
 
-export { generateChartData, generateExportData, generateGridRows, generateChartDataExt };
+export {
+  generateChartData,
+  generateExportData,
+  generateGridRows,
+  generateChartDataExt,
+};
