@@ -37,7 +37,7 @@ export default function BubbleNode({
 
     return hoverId === bubbleData.id
       ? bubbleData.color
-      : darken(bubbleData.color, 0.4);
+      : darken(bubbleData.color, 0.15);
   };
   const base = bubbleData.target / maxTarget;
   const radius = (chartSize / 24) * base;
@@ -57,6 +57,7 @@ export default function BubbleNode({
       sx={{
         ...nodeStyle,
         borderColor: bubbleData.highlighted ? "red" : "black",
+        borderWidth: bubbleData.highlighted ? "3px" : "1px",
         left: `${bubbleData.x}%`,
         bottom: `${bubbleData.y}%`,
         padding: `${drawRadius}px`,
