@@ -45,49 +45,58 @@ const BubbleChartHTML = ({ options, dataSets }: BubbleChartHTMLProps) => {
   };
   return (
     <Box
-      ref={chartRef}
-      className={hoverId ? "hover" : ""}
       sx={{
-        backgroundColor: "white",
+        border: "1px solid green",
+        padding: "30px",
         position: "relative",
         zIndex: "1",
-        border: "1px solid rgba(1,1,1,0.25)",
-        height: "80vh",
       }}
     >
-      {/* ScalesXY */}
-      <ScalesXY />
-      {/* Quadrants */}
-      <Quadrant />
-      {/* Bubbles */}
-      {showTypes.map((type) => (
-        <div key={type}>
-          {bubbles &&
-            bubbles
-              .filter((bubble) => bubble.type === type)
-              .map((bubble: any, i: number) => (
-                <BubbleNode
-                  key={`bubble-${i}`}
-                  bubbleData={bubble}
-                  onHover={() => handleHover(bubble.id)}
-                  onMouseLeave={handleLeave}
-                  hoverId={hoverId}
-                  maxTarget={maxTarget}
-                  defaultTarget={defaultTarget}
-                  chartSize={chartWidth}
-                />
-              ))}
-        </div>
-      ))}
-      {/* Legends */}
-      <Box sx={legendSection}>
-        {dataSets.map((dataSet) => (
-          <LegendButton
-            key={dataSet.id}
-            dataSet={dataSet}
-            handleToggle={handleDatasetToggle}
-          />
+      <Box
+        ref={chartRef}
+        className={hoverId ? "hover" : ""}
+        sx={{
+          backgroundColor: "white",
+          position: "relative",
+          zIndex: "1",
+          border: "1px solid rgba(1,1,1,0.25)",
+          height: "80vh",
+        }}
+      >
+        {/* ScalesXY */}
+        <ScalesXY />
+        {/* Quadrants */}
+        <Quadrant />
+        {/* Bubbles */}
+        {showTypes.map((type) => (
+          <div key={type}>
+            {bubbles &&
+              bubbles
+                .filter((bubble) => bubble.type === type)
+                .map((bubble: any, i: number) => (
+                  <BubbleNode
+                    key={`bubble-${i}`}
+                    bubbleData={bubble}
+                    onHover={() => handleHover(bubble.id)}
+                    onMouseLeave={handleLeave}
+                    hoverId={hoverId}
+                    maxTarget={maxTarget}
+                    defaultTarget={defaultTarget}
+                    chartSize={chartWidth}
+                  />
+                ))}
+          </div>
         ))}
+        {/* Legends */}
+        <Box sx={legendSection}>
+          {dataSets.map((dataSet) => (
+            <LegendButton
+              key={dataSet.id}
+              dataSet={dataSet}
+              handleToggle={handleDatasetToggle}
+            />
+          ))}
+        </Box>
       </Box>
     </Box>
   );

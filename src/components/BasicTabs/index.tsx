@@ -101,15 +101,12 @@ function BasicTabs() {
             </TabList>
           </Box>
           <Box sx={chartStyle}>
-            <TabPanel sx={{ paddingLeft: "32px" }} value="0">
+            <TabPanel value="0">
               <Grid container spacing={2}>
-                <Grid
-                  ref={chartRef}
-                  sx={{ backgroundColor: "white", maxWidth: "100%" }}
-                  item
-                  xs={10}
-                >
-                  <BubbleChartHTML dataSets={data} />
+                <Grid item xs={10}>
+                  <Box ref={chartRef} sx={{ backgroundColor: "white" }}>
+                    <BubbleChartHTML dataSets={data} />
+                  </Box>
                 </Grid>
                 <Grid item xs={2}>
                   <Setting captureChart={captureChart} />
