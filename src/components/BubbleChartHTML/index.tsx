@@ -9,6 +9,7 @@ import { legendSection } from "./styles";
 import LegendButton from "../LegendButton";
 import Quadrant from "../Quadrant";
 import ScalesXY from "../ScalesXY";
+import NoteSection from "../NoteSection";
 
 const BubbleChartHTML = ({ options, dataSets }: BubbleChartHTMLProps) => {
   const dataTypes = dataSets.map((dataSet) => dataSet.type);
@@ -60,6 +61,7 @@ const BubbleChartHTML = ({ options, dataSets }: BubbleChartHTMLProps) => {
           position: "relative",
           zIndex: "1",
           border: "1px solid rgba(1,1,1,0.25)",
+          borderBottomLeftRadius: "12px",
           height: "80vh",
         }}
       >
@@ -89,14 +91,17 @@ const BubbleChartHTML = ({ options, dataSets }: BubbleChartHTMLProps) => {
         ))}
         {/* Legends */}
         <Box sx={legendSection}>
-          {dataSets.map((dataSet) => (
-            <LegendButton
-              key={dataSet.id}
-              dataSet={dataSet}
-              handleToggle={handleDatasetToggle}
-            />
-          ))}
+          {dataSets
+            .filter((dataSet) => dataSet.data.length > 0)
+            .map((dataSet) => (
+              <LegendButton
+                key={dataSet.id}
+                dataSet={dataSet}
+                handleToggle={handleDatasetToggle}
+              />
+            ))}
         </Box>
+        <NoteSection />
       </Box>
     </Box>
   );
