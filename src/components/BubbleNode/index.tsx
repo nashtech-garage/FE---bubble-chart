@@ -1,8 +1,14 @@
 import { Box, Typography, darken } from "@mui/material";
-import { useState, useEffect } from "react";
-import { nodeBeforeStyle, nodeLabel, nodeStyle, arrowStyle } from "./styles";
+import { useState } from "react";
+import {
+  nodeBeforeStyle,
+  nodeLabel,
+  nodeStyle,
+  arrowStyle,
+  arrowStyleRight,
+  arrowStyleLeft,
+} from "./styles";
 import { BubbleNodeProps } from "../../models/bubbleNode";
-// import { ColorTranslator, Harmony, Mix } from "colortranslator";
 import eventBus from "../../utilities/event-bus";
 import { COLOR_CHART_ANNOTATIONS, LOCAL_STORAGE } from "../../constants";
 import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
@@ -112,19 +118,16 @@ export default function BubbleNode({
         sx={{
           ...arrowStyle,
           width: `${drawRadius - fixedRadius / 2}px`,
-          "& span": {
-            fontSize: "10px",
-          },
         }}
       >
         <ArrowLeftIcon
           sx={{
-            left: bubbleData.target <= defaultTarget ? "-50%" : "-25%",
+            ...arrowStyleLeft,
           }}
         />
         <ArrowRightIcon
           sx={{
-            left: bubbleData.target <= defaultTarget ? "35%" : "60%",
+            ...arrowStyleRight,
           }}
         />
         <span>+{bubbleData.target}</span>

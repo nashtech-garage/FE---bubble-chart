@@ -5,14 +5,13 @@ export const line = {
   width: "50%",
   left: "30%",
   borderTop: `5px solid ${ANNOTATIONS.MAIN_COLOR}`,
-  bottom: "0",
+  bottom: "-30px",
   "&:before": {
     fontSize: "20px",
     fontWeight: "bold",
-    position: "absolute",
+    textAlign: "center",
+    display: "block",
     content: "'Innovation'",
-    right: "10%",
-    bottom: "0",
   },
 };
 
@@ -22,6 +21,7 @@ export const lineVertical = {
   bottom: "25%",
   left: "0",
   top: "0",
+
   borderRight: `5px solid ${ANNOTATIONS.MAIN_COLOR}`,
   "&:before": {
     fontSize: "20px",
