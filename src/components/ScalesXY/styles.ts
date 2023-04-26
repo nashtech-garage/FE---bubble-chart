@@ -1,9 +1,8 @@
 import { ANNOTATIONS } from "../../constants/chartColor";
 
-
 export const line = {
   position: "absolute",
-  right: "3px",
+  width: "50%",
   left: "30%",
   borderTop: `5px solid ${ANNOTATIONS.MAIN_COLOR}`,
   bottom: "0",
@@ -29,8 +28,8 @@ export const lineVertical = {
     fontWeight: "bold",
     position: "absolute",
     content: "'Opportunity'",
-    right: "-40px",
-    top: "50%",
+    right: "-41px",
+    top: "35%",
     transform: "rotate(270deg)",
   },
 };

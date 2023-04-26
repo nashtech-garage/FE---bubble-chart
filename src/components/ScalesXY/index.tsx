@@ -10,8 +10,8 @@ const ScalesXY = () => {
         <ArrowRightIcon
           sx={{
             ...arrowStyle,
-            top: "-31px",
-            right: "-4%",
+            top: "-32px",
+            right: "calc(0% + -35px)",
           }}
         />
       </Box>
