@@ -130,6 +130,7 @@ export default function BubbleNode({
             ...arrowStyleRight,
           }}
         />
+
         <span>+{bubbleData.target}</span>
       </Box>
     </Box>
