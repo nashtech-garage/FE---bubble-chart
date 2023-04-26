@@ -3,13 +3,12 @@ import { Tab, Box, Grid } from "@mui/material";
 import { TabList, TabPanel, TabContext } from "@mui/lab";
 import * as htmlToImage from "html-to-image";
 
-import { mockData } from "../../assets/dummy/mockData";
+import { mockData, chartColor } from "../../assets/dummy/mockData";
 import { chartStyle, tabStyle } from "./styles";
 import { DataType, ElementData } from "../../models";
 import BubbleChart from "../BubbleChart";
 import DataTable from "../DataTable";
 import Heading from "../Heading";
-// import MasterDataForm from "../MasterDataForm";
 import eventBus from "../../utilities/event-bus";
 import TooltipPanel from "../TooltipPanel";
 import { LOCAL_STORAGE, TAB_LABELS } from "../../constants";
@@ -55,11 +54,16 @@ function BasicTabs() {
   }, []);
 
   useEffect(() => {
+    //Get data from localStorage
     const localStorageDataChart = localStorage.getItem(LOCAL_STORAGE.CHART);
     const localStorageActiveTab = localStorage.getItem(
       LOCAL_STORAGE.ACTIVE_TAB
     );
+    const localStorageChartColor = localStorage.getItem(
+      LOCAL_STORAGE.CHART_COLOR
+    );
 
+    //Set data
     if (typeof localStorageDataChart !== "string") {
       localStorage.setItem(
         LOCAL_STORAGE.CHART,
@@ -68,6 +72,16 @@ function BasicTabs() {
     }
     localStorageDataChart && setData(JSON.parse(localStorageDataChart));
 
+    //Set chart color
+    if (typeof localStorageChartColor !== "string") {
+      localStorage.setItem(
+        LOCAL_STORAGE.CHART_COLOR,
+        JSON.stringify(chartColor)
+      );
+    }
+    localStorageChartColor && setValue(localStorageChartColor);
+
+    //Set active tabs
     if (typeof localStorageActiveTab !== "string") {
       localStorage.setItem(LOCAL_STORAGE.ACTIVE_TAB, "1");
     }
@@ -81,7 +95,7 @@ function BasicTabs() {
           <Box sx={tabStyle}>
             <TabList onChange={handleChange}>
               <Tab label={TAB_LABELS.CHART + " NEW"} value="0" />
-              <Tab label={TAB_LABELS.CHART} value="1" />
+              {/* <Tab label={TAB_LABELS.CHART} value="1" /> */}
               {/* <Tab label="Master Data" value="2" /> */}
               <Tab label={TAB_LABELS.DATA} value="2" />
             </TabList>
@@ -105,7 +119,7 @@ function BasicTabs() {
                 </Grid>
               </Grid>
             </TabPanel>
-            <TabPanel value="1">
+            {/* <TabPanel value="1">
               <Grid container spacing={2}>
                 <Grid item xs={10}>
                   <BubbleChart propsData={data} />
@@ -117,7 +131,7 @@ function BasicTabs() {
                   )}
                 </Grid>
               </Grid>
-            </TabPanel>
+            </TabPanel> */}
             {/* <TabPanel value="2">
               <MasterDataForm />
             </TabPanel> */}

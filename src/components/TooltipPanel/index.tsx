@@ -2,7 +2,6 @@ import { AppBar, List, ListItem, ListItemText, Paper } from "@mui/material";
 import { Box } from "@mui/system";
 import { ADDED_TYPES, COLOR_CHART_ANNOTATIONS } from "../../constants";
 import { Heading, listStyled } from "./styles";
-import BubbleNode from "../BubbleNode";
 
 const TooltipPanel = (elementData: any) => {
   const data = elementData.elementData;

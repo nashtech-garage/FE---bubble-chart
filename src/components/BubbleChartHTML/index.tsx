@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { useEffect, useLayoutEffect, useState, useRef, useMemo } from "react";
+import { useLayoutEffect, useState, useRef, useMemo } from "react";
 
 import { BubbleChartHTMLProps } from "../../models/bubbleNode";
 import BubbleNode from "../BubbleNode";
@@ -12,9 +12,7 @@ import ScalesXY from "../ScalesXY";
 
 const BubbleChartHTML = ({ options, dataSets }: BubbleChartHTMLProps) => {
   const dataTypes = dataSets.map((dataSet) => dataSet.type);
-  const [bubbles, setBubbles] = useState<DataChildType[]>(
-    generateChartDataExt(dataSets)
-  );
+  const [bubbles] = useState<DataChildType[]>(generateChartDataExt(dataSets));
   const [showTypes, setShowTypes] = useState(dataTypes);
   const [hoverId, setHoverId] = useState(null);
 

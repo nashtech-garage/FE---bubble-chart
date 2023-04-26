@@ -1,8 +1,21 @@
-import { IconButton, Modal, Typography, Box } from "@mui/material";
+import { useEffect, useState } from "react";
+import {
+  IconButton,
+  Modal,
+  Typography,
+  Box,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  SelectChangeEvent,
+} from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import CloseIcon from "@mui/icons-material/Close";
-import { useState } from "react";
+import ColorPicker from "../ColorPicker";
+import { NoteType } from "../../assets/dummy/mockData";
+import { LOCAL_STORAGE } from "../../constants";
 
 const style = {
   position: "absolute" as "absolute",
@@ -16,12 +29,125 @@ const style = {
   p: 4,
 };
 
+const lineStyle = {
+  display: "flex",
+  alignItems: "center",
+  margin: "30px 0",
+};
+
 function Setting({ captureChart }: any) {
+  const getChartColor = JSON.parse(
+    localStorage.getItem(LOCAL_STORAGE.CHART_COLOR) || ""
+  );
   const [open, setOpen] = useState<boolean>(false);
-  const handleOpen = () => setOpen(true);
+  const [chartColor, setChartColor] = useState<any>(getChartColor);
+  //Varible of chart color
+  const [type, setType] = useState<string>("");
+  const [types, setTypes] = useState<any[]>([]);
+  const [color, setColor] = useState<string>("");
+  const [dotted, setDotted] = useState<string>("");
+  const [title, setTitle] = useState<string>("");
+  const [gotSkill, setGotSkill] = useState<string>("");
+  const [plan, setPlan] = useState<string>("");
+  const [ytd, setYTD] = useState<string>("");
+  const [lmOG, setLMOG] = useState<string>("");
+  const [lmFN, setLMFN] = useState<string>("");
+  const [highlight, setHighlight] = useState<string>("");
+
+  const handleOpen = () => {
+    const defaultValue = NoteType[0];
+    setOpen(true);
+    setType(defaultValue.type);
+    setDotted(chartColor.dotted);
+    setTitle(chartColor.label.title);
+    setGotSkill(chartColor.label.gotSkill);
+    setPlan(chartColor.label.plan);
+    setYTD(chartColor.label.ytd);
+    setLMOG(chartColor.label.onGoing);
+    setLMFN(chartColor.label.finished);
+    setHighlight(chartColor.highlight);
+  };
+
   const handleClose = (event: any, reason: any) => {
     if (reason && reason === "backdropClick") return;
   };
+
+  const updateData = () => {
+    localStorage.setItem(LOCAL_STORAGE.CHART_COLOR, JSON.stringify(chartColor));
+    setOpen(false);
+  };
+
+  const onCompleteChangeColor = (e: any, property: string) => {
+    let newColor = {};
+    switch (property) {
+      case "dotted": {
+        newColor = {
+          ...chartColor,
+          dotted: e.hex,
+        };
+        break;
+      }
+      case "title": {
+        newColor = {
+          ...chartColor,
+          label: { ...chartColor.label, title: e.hex },
+        };
+        break;
+      }
+      case "gotSkill": {
+        newColor = {
+          ...chartColor,
+          label: { ...chartColor.label, gotSkill: e.hex },
+        };
+        break;
+      }
+      case "plan": {
+        newColor = {
+          ...chartColor,
+          label: { ...chartColor.label, plan: e.hex },
+        };
+        break;
+      }
+      case "YTD": {
+        newColor = {
+          ...chartColor,
+          label: { ...chartColor.label, ytd: e.hex },
+        };
+        break;
+      }
+      case "LMOG": {
+        newColor = {
+          ...chartColor,
+          label: { ...chartColor.label, onGoing: e.hex },
+        };
+        break;
+      }
+      case "LMFN": {
+        newColor = {
+          ...chartColor,
+          label: { ...chartColor.label, finished: e.hex },
+        };
+        break;
+      }
+      case "highlight": {
+        newColor = { ...chartColor, highlight: e.hex };
+        break;
+      }
+    }
+    return setChartColor(newColor);
+  };
+
+  const handleSelectedChange = (e: SelectChangeEvent) => {
+    const type = e.target.value;
+    const colorByType = NoteType.find((i) => i.type === type)?.color || "red";
+    setType(type);
+    setColor(colorByType);
+  };
+
+  useEffect(() => {
+    const getTypes = NoteType.map((i) => i.type);
+    setTypes(getTypes);
+  }, []);
 
   return (
     <>
@@ -43,14 +169,93 @@ function Setting({ captureChart }: any) {
             <IconButton
               sx={{ position: "absolute", right: -5, top: -5 }}
               aria-label="export"
-              onClick={() => setOpen(false)}
+              onClick={updateData}
             >
               <CloseIcon />
             </IconButton>
           </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Setting mode
-          </Typography>
+          <div style={{ margin: "10px 0" }}>
+            <div style={lineStyle}>
+              Default color: <ColorPicker defaultColor={color} />
+              <FormControl
+                style={{ width: "125px", marginLeft: "10px", height: "40px" }}
+              >
+                <InputLabel id="demo-simple-select-label">Type</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={type}
+                  label="Type"
+                  onChange={handleSelectedChange}
+                >
+                  {types &&
+                    types.map((type, idx) => {
+                      return (
+                        <MenuItem key={idx} value={type}>
+                          {type}
+                        </MenuItem>
+                      );
+                    })}
+                </Select>
+              </FormControl>
+            </div>
+            <div style={lineStyle}>
+              Dotted color:{" "}
+              <ColorPicker
+                onComplete={(e) => onCompleteChangeColor(e, "dotted")}
+                defaultColor={dotted}
+              />
+            </div>
+            <div style={lineStyle}>
+              Title color:{" "}
+              <ColorPicker
+                onComplete={(e) => onCompleteChangeColor(e, "title")}
+                defaultColor={title}
+              />
+            </div>
+            <div style={lineStyle}>
+              Got skill color:{" "}
+              <ColorPicker
+                onComplete={(e) => onCompleteChangeColor(e, "gotSkill")}
+                defaultColor={gotSkill}
+              />
+            </div>
+            <div style={lineStyle}>
+              Plan color:{" "}
+              <ColorPicker
+                onComplete={(e) => onCompleteChangeColor(e, "plan")}
+                defaultColor={plan}
+              />
+            </div>
+            <div style={lineStyle}>
+              Added (YTD) color:{" "}
+              <ColorPicker
+                onComplete={(e) => onCompleteChangeColor(e, "YTD")}
+                defaultColor={ytd}
+              />
+            </div>
+            <div style={lineStyle}>
+              Added (LM) On Going color:{" "}
+              <ColorPicker
+                onComplete={(e) => onCompleteChangeColor(e, "LMOG")}
+                defaultColor={lmOG}
+              />
+            </div>
+            <div style={lineStyle}>
+              Added (LM) Finished color:{" "}
+              <ColorPicker
+                onComplete={(e) => onCompleteChangeColor(e, "LMFN")}
+                defaultColor={lmFN}
+              />
+            </div>
+            <div style={lineStyle}>
+              Highlight color:{" "}
+              <ColorPicker
+                onComplete={(e) => onCompleteChangeColor(e, "highlight")}
+                defaultColor={highlight}
+              />
+            </div>
+          </div>
         </Box>
       </Modal>
     </>

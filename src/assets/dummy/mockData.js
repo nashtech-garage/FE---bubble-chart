@@ -2,6 +2,25 @@ import { randomId } from "@mui/x-data-grid-generator";
 
 export const title = "Skill investment in 2023";
 
+export const chartColor = {
+  types: [
+    { type: "Create", color: "rgba(226, 240,217, 1)" },
+    { type: "Grow", color: "rgba(222, 235, 247, 1)" },
+    { type: "Enhance", color: "rgba(255, 242, 204, 1)" },
+    { type: "R&D", color: "rgba(251, 229, 214, 1)" },
+  ],
+  dotted: "black",
+  highlight: "red",
+  label: {
+    title: "#000000",
+    gotSkill: "black",
+    onGoing: "orange",
+    finished: "#3333ff",
+    plan: "#00cc00",
+    ytd: "#80aaff",
+  },
+};
+
 export const NoteType = [
   {
     id: "1",

@@ -1,10 +1,10 @@
 import { Box, Typography, darken } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { nodeBeforeStyle, nodeLabel, nodeStyle, arrowStyle } from "./styles";
 import { BubbleNodeProps } from "../../models/bubbleNode";
 // import { ColorTranslator, Harmony, Mix } from "colortranslator";
 import eventBus from "../../utilities/event-bus";
-import { COLOR_CHART_ANNOTATIONS } from "../../constants";
+import { COLOR_CHART_ANNOTATIONS, LOCAL_STORAGE } from "../../constants";
 import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 
@@ -19,6 +19,29 @@ export default function BubbleNode({
 }: BubbleNodeProps) {
   const [isHover, setHover] = useState(false);
   const [fixedRadius] = useState(120);
+  //Chart color
+  const getChartColor: any = localStorage.getItem(LOCAL_STORAGE.CHART_COLOR);
+  const chartColor = JSON.parse(getChartColor);
+  const dottedColor = bubbleData.highlighted
+    ? chartColor?.highlight || "red"
+    : chartColor?.dotted || "black";
+  const titleColor = { color: chartColor?.label.title || "black" };
+  const gotSkillColor = {
+    color: chartColor?.label.gotSkill || COLOR_CHART_ANNOTATIONS.GOTSKILL,
+  };
+  const ytdColor = {
+    color: chartColor?.label.ytd || COLOR_CHART_ANNOTATIONS.YTD,
+  };
+  const lmColor = {
+    color:
+      bubbleData.addedType === "Finished"
+        ? chartColor?.label.finished || COLOR_CHART_ANNOTATIONS.FINISHED
+        : chartColor?.label.onGoing || COLOR_CHART_ANNOTATIONS.ONGOING,
+  };
+  const planColor = {
+    color: chartColor?.label.plan || COLOR_CHART_ANNOTATIONS.PLAN,
+  };
+
   const handleHover = () => {
     setHover(true);
     onHover();
@@ -27,6 +50,7 @@ export default function BubbleNode({
       bgColor: bubbleData.color,
     });
   };
+
   const handleLeave = () => {
     setHover(false);
     onMouseLeave();
@@ -56,7 +80,7 @@ export default function BubbleNode({
       onMouseLeave={handleLeave}
       sx={{
         ...nodeStyle,
-        borderColor: bubbleData.highlighted ? "red" : "black",
+        borderColor: dottedColor,
         borderWidth: bubbleData.highlighted ? "3px" : "1px",
         left: `${bubbleData.x}%`,
         bottom: `${bubbleData.y}%`,
@@ -78,27 +102,11 @@ export default function BubbleNode({
       data-type={bubbleData.type}
     >
       <Typography sx={nodeLabel}>
-        {bubbleData.name} (
-        <span style={{ color: COLOR_CHART_ANNOTATIONS.GOTSKILL }}>
-          {bubbleData.gotSkill}
-        </span>{" "}
-        <span style={{ color: COLOR_CHART_ANNOTATIONS.YTD }}>
-          {bubbleData.YTD}
-        </span>{" "}
-        <span
-          style={{
-            color:
-              bubbleData.addedType === "Finished"
-                ? COLOR_CHART_ANNOTATIONS.FINISHED
-                : COLOR_CHART_ANNOTATIONS.ONGOING,
-          }}
-        >
-          +{bubbleData.LM}
-        </span>{" "}
-        <span style={{ color: COLOR_CHART_ANNOTATIONS.PLAN }}>
-          /+{bubbleData.target}
-        </span>
-        )
+        <span style={titleColor}>{bubbleData.name}</span> (
+        <span style={gotSkillColor}>{bubbleData.gotSkill}</span>{" "}
+        <span style={ytdColor}>{bubbleData.YTD}</span>{" "}
+        <span style={lmColor}>+{bubbleData.LM}</span>{" "}
+        <span style={planColor}>/+{bubbleData.target}</span>)
       </Typography>
       <Box
         sx={{
