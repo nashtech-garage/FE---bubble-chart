@@ -21,12 +21,12 @@ export const nodeBeforeStyle = {
   display: "block",
   position: "absolute",
   zIndex: "2",
-  background: " #bebebe",
   borderRadius: "50%",
   left: "50%",
   top: "50%",
   transform: "translate(-50%, -50%)",
   transition: "all .3s ease-in",
+  border: "1px solid"
 };
 export const nodeLabel = {
   position: "absolute",
