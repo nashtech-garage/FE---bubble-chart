@@ -1,7 +1,4 @@
-import { LOCAL_STORAGE } from "../constants";
 import { DataChildType, DataChildTypeExt, DataType } from "../models";
-const getChartColor: any = localStorage.getItem(LOCAL_STORAGE.CHART_COLOR);
-const chartColor = JSON.parse(getChartColor);
 
 const generateChartData = (data: DataType[]) =>
   data.map((item: DataType) => {
@@ -36,14 +33,12 @@ const generateGridRows = (data: DataType[]) => {
 
 const generateChartDataExt = (data: DataType[]) => {
   let rows: DataChildTypeExt[] = [];
-  const found = (item: any) =>
-    chartColor.types.find((i: any) => i.type === item.type);
   data.map((item) =>
     item.data.map((dataItem: any) =>
       rows.push({
         ...dataItem,
-        type: found(item).type,
-        color: found(item).color,
+        type: item.type,
+        color: item.color,
       })
     )
   );

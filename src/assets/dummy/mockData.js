@@ -2,7 +2,7 @@ import { randomId } from "@mui/x-data-grid-generator";
 
 export const title = "Skill investment in 2023";
 
-export const chartColor = {
+export const mockChartColor = {
   types: [
     { type: "Create", color: "rgba(226, 240,217, 1)" },
     { type: "Grow", color: "rgba(222, 235, 247, 1)" },

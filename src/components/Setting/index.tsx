@@ -34,12 +34,12 @@ const lineStyle = {
   margin: "30px 0",
 };
 
-function Setting({ dataSets, captureChart, updateColor }: any) {
-  const getChartColor = JSON.parse(
-    localStorage.getItem(LOCAL_STORAGE.CHART_COLOR) || ""
-  );
+function Setting({ dataSets, captureChart, updateColor, chartColor }: any) {
+  // const getChartColor = JSON.parse(
+  //   localStorage.getItem(LOCAL_STORAGE.CHART_COLOR) || ""
+  // );
   const [open, setOpen] = useState<boolean>(false);
-  const [chartColor, setChartColor] = useState<any>(getChartColor);
+  // const [chartColor, setChartColor] = useState<any>(getChartColor);
   //Varible of chart color
   const [type, setType] = useState<string>("");
   const [types, setTypes] = useState<any[]>([]);
@@ -149,7 +149,7 @@ function Setting({ dataSets, captureChart, updateColor }: any) {
         break;
       }
     }
-    return setChartColor(newColor);
+    return updateColor(newColor);
   };
 
   const handleSelectedChange = (e: SelectChangeEvent) => {

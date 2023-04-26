@@ -3,7 +3,7 @@ import { Tab, Box, Grid } from "@mui/material";
 import { TabList, TabPanel, TabContext } from "@mui/lab";
 import * as htmlToImage from "html-to-image";
 
-import { mockData, chartColor } from "../../assets/dummy/mockData";
+import { mockData, mockChartColor } from "../../assets/dummy/mockData";
 import { chartStyle, tabStyle } from "./styles";
 import { DataType, ElementData } from "../../models";
 import BubbleChart from "../BubbleChart";
@@ -18,15 +18,12 @@ import BubbleChartHTML from "../BubbleChartHTML";
 import moment from "moment";
 
 function BasicTabs() {
-  const getChartColor = JSON.parse(
-    localStorage.getItem(LOCAL_STORAGE.CHART_COLOR) || ""
-  );
   const chartRef = useRef<any>(null);
 
   const [value, setValue] = useState<string>("");
   const [data, setData] = useState<DataType[]>([]);
   const [dataTooltip, setDataTooltip] = useState<ElementData>();
-  const [chartColor, setChartColor] = useState<any>(getChartColor);
+  const [chartColor, setChartColor] = useState<any>(null);
 
   const handleChange = (event: any, newValue: string) => {
     localStorage.setItem(LOCAL_STORAGE.ACTIVE_TAB, newValue);
@@ -82,14 +79,14 @@ function BasicTabs() {
     if (typeof localStorageChartColor !== "string") {
       localStorage.setItem(
         LOCAL_STORAGE.CHART_COLOR,
-        JSON.stringify(chartColor)
+        JSON.stringify(mockChartColor)
       );
     }
     localStorageChartColor && setValue(localStorageChartColor);
 
     //Set active tabs
     if (typeof localStorageActiveTab !== "string") {
-      localStorage.setItem(LOCAL_STORAGE.ACTIVE_TAB, "1");
+      localStorage.setItem(LOCAL_STORAGE.ACTIVE_TAB, "2");
     }
     localStorageActiveTab && setValue(localStorageActiveTab);
   }, []);
@@ -116,6 +113,7 @@ function BasicTabs() {
                 </Grid>
                 <Grid item xs={2}>
                   <Setting
+                    chartColor={chartColor}
                     dataSets={data}
                     captureChart={captureChart}
                     updateColor={setChartColor}
