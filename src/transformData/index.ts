@@ -31,14 +31,16 @@ const generateGridRows = (data: DataType[]) => {
   return rows;
 };
 
-const generateChartDataExt = (data: DataType[]) => {
+const generateChartDataExt = (data: DataType[], chartColor: any) => {
   let rows: DataChildTypeExt[] = [];
+  const found = (item: any) =>
+    chartColor.types.find((i: any) => i.type === item.type);
   data.map((item) =>
     item.data.map((dataItem: any) =>
       rows.push({
         ...dataItem,
-        type: item.type,
-        color: item.color,
+        type: found(item).type,
+        color: found(item).color,
       })
     )
   );

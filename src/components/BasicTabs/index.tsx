@@ -82,7 +82,7 @@ function BasicTabs() {
         JSON.stringify(mockChartColor)
       );
     }
-    localStorageChartColor && setValue(localStorageChartColor);
+    localStorageChartColor && setChartColor(JSON.parse(localStorageChartColor));
 
     //Set active tabs
     if (typeof localStorageActiveTab !== "string") {

@@ -12,7 +12,9 @@ import NoteSection from "../NoteSection";
 
 const BubbleChartHTML = ({ dataSets, chartColor }: BubbleChartHTMLProps) => {
   const dataTypes = dataSets.map((dataSet) => dataSet.type);
-  const [bubbles] = useState<DataChildType[]>(generateChartDataExt(dataSets));
+  const [bubbles] = useState<DataChildType[]>(
+    generateChartDataExt(dataSets, chartColor)
+  );
   const [showTypes, setShowTypes] = useState(dataTypes);
   const [hoverId, setHoverId] = useState(null);
 
@@ -98,6 +100,7 @@ const BubbleChartHTML = ({ dataSets, chartColor }: BubbleChartHTMLProps) => {
                 key={dataSet.id}
                 dataSet={dataSet}
                 handleToggle={handleDatasetToggle}
+                chartColor={chartColor}
               />
             ))}
         </Box>

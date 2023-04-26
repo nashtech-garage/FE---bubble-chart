@@ -1,5 +1,5 @@
 import { Box, Typography, darken } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   nodeBeforeStyle,
   nodeLabel,
@@ -10,7 +10,7 @@ import {
 } from "./styles";
 import { BubbleNodeProps } from "../../models/bubbleNode";
 import eventBus from "../../utilities/event-bus";
-import { COLOR_CHART_ANNOTATIONS, LOCAL_STORAGE } from "../../constants";
+import { COLOR_CHART_ANNOTATIONS } from "../../constants";
 import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 
@@ -26,6 +26,9 @@ export default function BubbleNode({
 }: BubbleNodeProps) {
   const [isHover, setHover] = useState(false);
   const [fixedRadius] = useState(120);
+  const nodeColor = chartColor.types.find(
+    (i: any) => i.type === bubbleData.type
+  );
 
   //Chart color
   const dottedColor = bubbleData.highlighted
@@ -53,7 +56,7 @@ export default function BubbleNode({
     onHover();
     eventBus.dispatch(`chart-tooltip`, {
       elementData: bubbleData,
-      bgColor: bubbleData.color,
+      bgColor: nodeColor.color,
     });
   };
 
@@ -63,11 +66,11 @@ export default function BubbleNode({
   };
 
   const getBGColor = () => {
-    if (!hoverId) return bubbleData.color;
+    if (!hoverId) return nodeColor.color;
 
     return hoverId === bubbleData.id
-      ? bubbleData.color
-      : darken(bubbleData.color, 0.3);
+      ? nodeColor.color
+      : darken(nodeColor.color, 0.3);
   };
   const base = bubbleData.target / maxTarget;
   const radius = (chartSize / 24) * base;
