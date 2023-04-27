@@ -9,30 +9,15 @@ import {
   Select,
   MenuItem,
   SelectChangeEvent,
+  Divider,
+  Grid,
 } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import CloseIcon from "@mui/icons-material/Close";
 import ColorPicker from "../ColorPicker";
 import { LOCAL_STORAGE } from "../../constants";
-
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
-
-const lineStyle = {
-  display: "flex",
-  alignItems: "center",
-  margin: "30px 0",
-};
+import { colorPickerStyled, lineStyle, style } from "./styles";
 
 function Setting({ dataSets, captureChart, updateColor, chartColor }: any) {
   // const getChartColor = JSON.parse(
@@ -166,7 +151,7 @@ function Setting({ dataSets, captureChart, updateColor, chartColor }: any) {
     const types = filtered.map((i: any) => ({ type: i.type, color: i.color }));
     setTypes(types);
     setType(types[0].type);
-  }, [dataSets]);
+  }, [chartColor.types, dataSets]);
 
   return (
     <>
@@ -183,7 +168,7 @@ function Setting({ dataSets, captureChart, updateColor, chartColor }: any) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
+          <Typography id="modal-modal-title" variant="h5" component="h2">
             Setting modal
             <IconButton
               sx={{ position: "absolute", right: -5, top: -5 }}
@@ -193,16 +178,9 @@ function Setting({ dataSets, captureChart, updateColor, chartColor }: any) {
               <CloseIcon />
             </IconButton>
           </Typography>
-          <div style={{ margin: "10px 0" }}>
-            <div style={lineStyle}>
-              Default color:{" "}
-              <ColorPicker
-                onComplete={(e) => onCompleteChangeColor(e, "type")}
-                defaultColor={color}
-              />
-              <FormControl
-                style={{ width: "125px", marginLeft: "10px", height: "40px" }}
-              >
+          <Box my={2}>
+            <Box sx={lineStyle}>
+              <FormControl style={{ width: "100%" }}>
                 <InputLabel id="demo-simple-select-label">Type</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
@@ -221,64 +199,110 @@ function Setting({ dataSets, captureChart, updateColor, chartColor }: any) {
                     })}
                 </Select>
               </FormControl>
-            </div>
-            <div style={lineStyle}>
-              Dotted color:{" "}
               <ColorPicker
-                onComplete={(e) => onCompleteChangeColor(e, "dotted")}
-                defaultColor={dotted}
+                onComplete={(e) => onCompleteChangeColor(e, "type")}
+                defaultColor={color}
               />
-            </div>
-            <div style={lineStyle}>
-              Title color:{" "}
-              <ColorPicker
-                onComplete={(e) => onCompleteChangeColor(e, "title")}
-                defaultColor={title}
-              />
-            </div>
-            <div style={lineStyle}>
-              Got skill color:{" "}
-              <ColorPicker
-                onComplete={(e) => onCompleteChangeColor(e, "gotSkill")}
-                defaultColor={gotSkill}
-              />
-            </div>
-            <div style={lineStyle}>
-              Plan color:{" "}
-              <ColorPicker
-                onComplete={(e) => onCompleteChangeColor(e, "plan")}
-                defaultColor={plan}
-              />
-            </div>
-            <div style={lineStyle}>
-              Added (YTD) color:{" "}
-              <ColorPicker
-                onComplete={(e) => onCompleteChangeColor(e, "YTD")}
-                defaultColor={ytd}
-              />
-            </div>
-            <div style={lineStyle}>
-              Added (LM) On Going color:{" "}
-              <ColorPicker
-                onComplete={(e) => onCompleteChangeColor(e, "LMOG")}
-                defaultColor={lmOG}
-              />
-            </div>
-            <div style={lineStyle}>
-              Added (LM) Finished color:{" "}
-              <ColorPicker
-                onComplete={(e) => onCompleteChangeColor(e, "LMFN")}
-                defaultColor={lmFN}
-              />
-            </div>
-            <div style={lineStyle}>
-              Highlight color:{" "}
-              <ColorPicker
-                onComplete={(e) => onCompleteChangeColor(e, "highlight")}
-                defaultColor={highlight}
-              />
-            </div>
-          </div>
+            </Box>
+            <Divider />
+            <Grid
+              container
+              spacing={3}
+              direction="row"
+              justifyContent="space-between"
+            >
+              <Grid item xs={9}>
+                <Grid
+                  container
+                  direction="row"
+                  rowSpacing={0}
+                  columnSpacing={{ xs: 4 }}
+                >
+                  <Grid item xs={12}>
+                    <Typography variant="h6" component="h3" my={2}>
+                      Label Color
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={5}>
+                    <Box sx={lineStyle}>
+                      Title:{" "}
+                      <ColorPicker
+                        style={colorPickerStyled}
+                        onComplete={(e) => onCompleteChangeColor(e, "title")}
+                        defaultColor={title}
+                      />
+                    </Box>
+                    <Box style={lineStyle}>
+                      Got skill:{" "}
+                      <ColorPicker
+                        style={colorPickerStyled}
+                        onComplete={(e) => onCompleteChangeColor(e, "gotSkill")}
+                        defaultColor={gotSkill}
+                      />
+                    </Box>
+                    <Box style={lineStyle}>
+                      Plan:{" "}
+                      <ColorPicker
+                        style={colorPickerStyled}
+                        onComplete={(e) => onCompleteChangeColor(e, "plan")}
+                        defaultColor={plan}
+                      />
+                    </Box>
+                  </Grid>
+                  <Grid item xs={7}>
+                    <Box style={lineStyle}>
+                      Added (YTD):{" "}
+                      <ColorPicker
+                        style={colorPickerStyled}
+                        onComplete={(e) => onCompleteChangeColor(e, "YTD")}
+                        defaultColor={ytd}
+                      />
+                    </Box>
+                    <Box style={lineStyle}>
+                      Added (LM) On Going:{" "}
+                      <ColorPicker
+                        style={colorPickerStyled}
+                        onComplete={(e) => onCompleteChangeColor(e, "LMOG")}
+                        defaultColor={lmOG}
+                      />
+                    </Box>
+                    <Box style={lineStyle}>
+                      Added (LM) Finished:{" "}
+                      <ColorPicker
+                        style={colorPickerStyled}
+                        onComplete={(e) => onCompleteChangeColor(e, "LMFN")}
+                        defaultColor={lmFN}
+                      />
+                    </Box>
+                  </Grid>
+                </Grid>
+              </Grid>
+
+              <Grid item xs={3}>
+                <Typography variant="h6" component="h3" my={2}>
+                  Dotted Color
+                </Typography>
+                <Box style={lineStyle}>
+                  Default:{" "}
+                  <ColorPicker
+                    style={colorPickerStyled}
+                    onComplete={(e) => onCompleteChangeColor(e, "dotted")}
+                    defaultColor={dotted}
+                  />
+                </Box>
+                <Box style={lineStyle}>
+                  Highlight:{" "}
+                  <ColorPicker
+                    style={colorPickerStyled}
+                    onComplete={(e) => onCompleteChangeColor(e, "highlight")}
+                    defaultColor={highlight}
+                  />
+                </Box>
+              </Grid>
+            </Grid>
+
+            <Divider />
+          </Box>
         </Box>
       </Modal>
     </>
