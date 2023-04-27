@@ -86,7 +86,7 @@ export const defineColumns = (data: DataType[]) => {
     align: "right",
     flex: 1,
     sortable: false,
-    min: 1,
+    min: 0,
     max: 100,
   };
 
@@ -98,7 +98,7 @@ export const defineColumns = (data: DataType[]) => {
     align: "right",
     flex: 1,
     sortable: false,
-    min: 1,
+    min: 0,
     max: 100,
   };
 
