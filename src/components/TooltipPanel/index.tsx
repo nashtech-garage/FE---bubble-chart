@@ -21,7 +21,7 @@ const TooltipPanel = ({ elementData, chartColor }: any) => {
       <Box>
         <Paper variant="outlined">
           <AppBar position="static" sx={{ backgroundColor: bgColor }}>
-            <Heading variant="h2">{panel.name}</Heading>
+            <Heading variant="h2">{panel?.name || "Skill name"}</Heading>
           </AppBar>
           <List component="ul" sx={listStyled}>
             <ListItem sx={{ color: gotSkillColor }}>
@@ -44,7 +44,7 @@ const TooltipPanel = ({ elementData, chartColor }: any) => {
                 color:
                   panel?.addedType === ADDED_TYPES.FINISHED
                     ? finishedColor
-                    : ongoingColor,
+                    : ongoingColor || ongoingColor,
               }}
             >
               <ListItemText primary="Added (LM):" />

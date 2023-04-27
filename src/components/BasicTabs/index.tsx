@@ -10,7 +10,7 @@ import DataTable from "../DataTable";
 import Heading from "../Heading";
 import eventBus from "../../utilities/event-bus";
 import TooltipPanel from "../TooltipPanel";
-import { LOCAL_STORAGE, TAB_LABELS } from "../../constants";
+import { DEFAULT_TOOLTIP, LOCAL_STORAGE, TAB_LABELS } from "../../constants";
 import Setting from "../Setting";
 import { generateChartData } from "../../transformData";
 import BubbleChartHTML from "../BubbleChartHTML";
@@ -31,6 +31,7 @@ function BasicTabs() {
   };
 
   const updateData = (data: DataType[]) => {
+    console.log("z");
     localStorage.setItem(LOCAL_STORAGE.CHART, JSON.stringify(data));
     setData(data);
     //reset tooltip panel when updated data
@@ -136,12 +137,10 @@ function BasicTabs() {
                     captureChart={captureChart}
                     updateColor={updateColor}
                   />
-                  {dataTooltip?.elementData && (
-                    <TooltipPanel
-                      chartColor={chartColor}
-                      elementData={dataTooltip}
-                    />
-                  )}
+                  <TooltipPanel
+                    chartColor={chartColor}
+                    elementData={dataTooltip || DEFAULT_TOOLTIP}
+                  />
                 </Grid>
               </Grid>
             </TabPanel>

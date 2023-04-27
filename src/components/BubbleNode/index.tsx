@@ -63,15 +63,18 @@ export default function BubbleNode({
   const handleLeave = () => {
     setHover(false);
     onMouseLeave();
+    eventBus.dispatch(`chart-tooltip`, {
+      elementData: undefined,
+      bgColor: nodeColor.color,
+    });
   };
 
-  const getBGColor = () => {
-    if (!hoverId) return nodeColor.color;
+  const getOpacity = () => {
+    if (!hoverId) return "1";
 
-    return hoverId === bubbleData.id
-      ? nodeColor.color
-      : darken(nodeColor.color, 0.3);
+    return hoverId === bubbleData.id ? "1" : "0.5";
   };
+
   const base = bubbleData.target / maxTarget;
   const radius = (chartSize / 24) * base;
   const dfRadius = (defaultTarget / maxTarget) * (chartSize / 24);
@@ -87,8 +90,9 @@ export default function BubbleNode({
       onMouseLeave={handleLeave}
       sx={{
         ...nodeStyle,
+        opacity: getOpacity(),
         borderColor: dottedColor,
-        borderWidth: bubbleData.highlighted ? "3px" : "1px",
+        borderWidth: "1px",
         left: `${bubbleData.x}%`,
         bottom: `${bubbleData.y}%`,
         padding: `${drawRadius}px`,
@@ -96,7 +100,7 @@ export default function BubbleNode({
           ...nodeBeforeStyle,
           width: `${fixedRadius}px`,
           paddingTop: `${fixedRadius}px`,
-          backgroundColor: getBGColor(),
+          backgroundColor: nodeColor.color,
         },
         "&:hover": {
           zIndex: "10",
@@ -119,23 +123,20 @@ export default function BubbleNode({
         sx={{
           ...arrowStyle,
           width: `${drawRadius - fixedRadius / 2}px`,
-          borderColor: dottedColor,
         }}
       >
         <ArrowLeftIcon
           sx={{
             ...arrowStyleLeft,
-            color: dottedColor,
           }}
         />
         <ArrowRightIcon
           sx={{
             ...arrowStyleRight,
-            color: dottedColor,
           }}
         />
 
-        <span style={{ color: dottedColor }}>+{bubbleData.target}</span>
+        <span style={{ pointerEvents: "none" }}>+{bubbleData.target}</span>
       </Box>
     </Box>
   );

@@ -48,6 +48,7 @@ export const arrowStyle = {
   display: "flex",
   aligItems: "center",
   "& svg": {
+    color: ANNOTATIONS.MAIN_COLOR,
     marginTop: "-12px",
     position: "absolute",
   },
