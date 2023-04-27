@@ -55,7 +55,7 @@ function Setting({ dataSets, captureChart, updateColor, chartColor }: any) {
 
   const handleOpen = () => {
     setOpen(true);
-    setTypes(chartColor.types);
+    // setTypes(chartColor.types);
     setType(chartColor.types[0].type);
     setColor(chartColor.types[0].color);
     setDotted(chartColor.dotted);
