@@ -6,7 +6,7 @@ import { randomId } from "@mui/x-data-grid-generator";
 import { containsObject } from "../../utilities";
 
 export default function MasterDataForm({ dataSets, updateData }: any) {
-  const [typeColor, setTypeColor] = useState("pink");
+  const [typeColor, setTypeColor] = useState("#ffc0cb");
   const [hasError, setHasError] = useState(false);
   const [helperText, setHelperText] = useState("");
 
@@ -49,7 +49,6 @@ export default function MasterDataForm({ dataSets, updateData }: any) {
             name="type"
             autoComplete="type"
             autoFocus
-            sx={{ input: { color: typeColor } }}
           />
           <ColorPicker onComplete={handleChange} defaultColor={typeColor} />
         </Box>
