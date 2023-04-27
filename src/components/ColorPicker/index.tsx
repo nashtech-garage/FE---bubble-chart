@@ -6,11 +6,13 @@ import { popover, cover } from "./styles";
 interface ColorPickerProps {
   onComplete?: (color: any) => void;
   defaultColor: string;
+  style?: {};
 }
 
 export default function ColorPicker({
   onComplete,
   defaultColor,
+  style,
 }: ColorPickerProps) {
   const [displayColorPicker, setDisplayColorPicker] = useState<boolean>(false);
   const [selectedColor, setColor] = useState<string>(defaultColor);
@@ -43,6 +45,7 @@ export default function ColorPicker({
           borderRadius: "5px",
           boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
           backgroundColor: selectedColor,
+          ...style,
         }}
         onClick={handleClick}
       ></Box>
