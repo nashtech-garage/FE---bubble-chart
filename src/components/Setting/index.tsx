@@ -20,11 +20,7 @@ import { LOCAL_STORAGE } from "../../constants";
 import { colorPickerStyled, lineStyle, style } from "./styles";
 
 function Setting({ dataSets, captureChart, updateColor, chartColor }: any) {
-  // const getChartColor = JSON.parse(
-  //   localStorage.getItem(LOCAL_STORAGE.CHART_COLOR) || ""
-  // );
   const [open, setOpen] = useState<boolean>(false);
-  // const [chartColor, setChartColor] = useState<any>(getChartColor);
   //Varible of chart color
   const [type, setType] = useState<string>("");
   const [types, setTypes] = useState<any[]>([]);
@@ -40,9 +36,6 @@ function Setting({ dataSets, captureChart, updateColor, chartColor }: any) {
 
   const handleOpen = () => {
     setOpen(true);
-    // setTypes(chartColor.types);
-    // setType(chartColor.types[0].type);
-    setColor(chartColor.types[0].color);
     setDotted(chartColor.dotted);
     setTitle(chartColor.label.title);
     setGotSkill(chartColor.label.gotSkill);
@@ -144,14 +137,20 @@ function Setting({ dataSets, captureChart, updateColor, chartColor }: any) {
     setColor(colorByType);
   };
 
+  const updateDataSetColor = (type: string) =>
+    chartColor.types.find((i: any) => i.type === type);
+
   useEffect(() => {
-    const filtered = dataSets.sort(
-      (a: any, b: any) => b.data.length - a.data.length
-    );
-    const types = filtered.map((i: any) => ({ type: i.type, color: i.color }));
+    const filtered = dataSets.filter((i: any) => i.data.length);
+    const types = filtered.map((i: any) => ({
+      type: i.type,
+      color: updateDataSetColor(i.type).color,
+    }));
     setTypes(types);
     setType(types[0].type);
-  }, [chartColor.types, dataSets]);
+    setColor(types[0].color);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dataSets]);
 
   return (
     <>
