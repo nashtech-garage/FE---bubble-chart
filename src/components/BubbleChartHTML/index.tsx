@@ -62,7 +62,6 @@ const BubbleChartHTML = ({ dataSets, chartColor }: BubbleChartHTMLProps) => {
           backgroundColor: "white",
           position: "relative",
           zIndex: "1",
-          border: "1px solid rgba(1,1,1,0.25)",
           borderBottomLeftRadius: "12px",
           height: "80vh",
         }}

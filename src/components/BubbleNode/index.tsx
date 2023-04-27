@@ -88,7 +88,7 @@ export default function BubbleNode({
       sx={{
         ...nodeStyle,
         borderColor: dottedColor,
-        borderWidth: bubbleData.highlighted ? "3px" : "1px",
+        borderWidth: bubbleData.highlighted ? "1px" : "1px",
         left: `${bubbleData.x}%`,
         bottom: `${bubbleData.y}%`,
         padding: `${drawRadius}px`,
