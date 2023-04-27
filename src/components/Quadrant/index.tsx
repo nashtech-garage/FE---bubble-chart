@@ -1,13 +1,8 @@
 import { Box } from "@mui/material";
-import { quadrant, line, lineVertical } from "./styles";
+import { quadrant } from "./styles";
 
 const Quadrant = () => {
-  return (
-    <Box sx={quadrant}>
-      <Box sx={line}></Box>
-      <Box sx={lineVertical}></Box>
-    </Box>
-  );
+  return <Box sx={quadrant}></Box>;
 };
 
 export default Quadrant;
