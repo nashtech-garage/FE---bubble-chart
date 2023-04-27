@@ -6,7 +6,7 @@ import { randomId } from "@mui/x-data-grid-generator";
 import { containsObject } from "../../utilities";
 
 export default function MasterDataForm({ dataSets, updateData }: any) {
-  const [typeColor, setTypeColor] = useState("");
+  const [typeColor, setTypeColor] = useState("pink");
   const [hasError, setHasError] = useState(false);
   const [helperText, setHelperText] = useState("");
 
