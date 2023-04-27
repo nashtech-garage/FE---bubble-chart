@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { noteSection } from "./styles";
-import { COLOR_CHART_ANNOTATIONS, LOCAL_STORAGE } from "../../constants";
+import { COLOR_CHART_ANNOTATIONS } from "../../constants";
 
 const NoteSection = ({ chartColor }: any) => {
   const gotSkillColor =

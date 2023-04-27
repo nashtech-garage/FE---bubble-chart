@@ -1,4 +1,4 @@
-import { Box, Typography, darken } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useState } from "react";
 import {
   nodeBeforeStyle,
