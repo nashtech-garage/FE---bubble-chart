@@ -37,6 +37,25 @@ function BasicTabs() {
     setDataTooltip(undefined);
   };
 
+  const updateColor = (chartColor: any) => {
+    localStorage.setItem(LOCAL_STORAGE.CHART_COLOR, JSON.stringify(chartColor));
+    setChartColor(chartColor);
+  };
+
+  const updateLocalData = (data: DataType[]) => {
+    const newestType = data[data.length - 1];
+    const newChartColor = { ...chartColor };
+    newChartColor.types.push({
+      type: newestType.type,
+      color: newestType.color,
+    });
+    updateData(data);
+    localStorage.setItem(
+      LOCAL_STORAGE.CHART_COLOR,
+      JSON.stringify(newChartColor)
+    );
+  };
+
   const captureChart = async () => {
     const dataUrl = await htmlToImage.toPng(chartRef.current);
     // download image
@@ -115,7 +134,7 @@ function BasicTabs() {
                     chartColor={chartColor}
                     dataSets={data}
                     captureChart={captureChart}
-                    updateColor={setChartColor}
+                    updateColor={updateColor}
                   />
                   {dataTooltip?.elementData && (
                     <TooltipPanel
@@ -127,7 +146,7 @@ function BasicTabs() {
               </Grid>
             </TabPanel>
             <TabPanel value="1">
-              <MasterDataForm dataSets={data} updateData={updateData} />
+              <MasterDataForm dataSets={data} updateData={updateLocalData} />
             </TabPanel>
             <TabPanel value="2">
               <DataTable data={data} onUpdate={updateData} />
