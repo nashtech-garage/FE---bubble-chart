@@ -44,11 +44,10 @@ export const arrowStyle = {
   top: "50%",
   left: "auto",
   right: "0",
-  borderTop: `1px solid ${ANNOTATIONS.MAIN_COLOR}`,
+  borderTop: `1px solid`,
   display: "flex",
   aligItems: "center",
   "& svg": {
-    color: ANNOTATIONS.MAIN_COLOR,
     marginTop: "-12px",
     position: "absolute",
   },

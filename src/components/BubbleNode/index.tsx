@@ -119,20 +119,23 @@ export default function BubbleNode({
         sx={{
           ...arrowStyle,
           width: `${drawRadius - fixedRadius / 2}px`,
+          borderColor: dottedColor,
         }}
       >
         <ArrowLeftIcon
           sx={{
             ...arrowStyleLeft,
+            color: dottedColor,
           }}
         />
         <ArrowRightIcon
           sx={{
             ...arrowStyleRight,
+            color: dottedColor,
           }}
         />
 
-        <span>+{bubbleData.target}</span>
+        <span style={{ color: dottedColor }}>+{bubbleData.target}</span>
       </Box>
     </Box>
   );
