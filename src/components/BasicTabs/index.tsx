@@ -6,7 +6,6 @@ import * as htmlToImage from "html-to-image";
 import { mockData, mockChartColor } from "../../assets/dummy/mockData";
 import { chartStyle, tabStyle } from "./styles";
 import { DataType, ElementData } from "../../models";
-import BubbleChart from "../BubbleChart";
 import DataTable from "../DataTable";
 import Heading from "../Heading";
 import eventBus from "../../utilities/event-bus";
@@ -16,6 +15,7 @@ import Setting from "../Setting";
 import { generateChartData } from "../../transformData";
 import BubbleChartHTML from "../BubbleChartHTML";
 import moment from "moment";
+import MasterDataForm from "../MasterDataForm";
 
 function BasicTabs() {
   const chartRef = useRef<any>(null);
@@ -97,9 +97,8 @@ function BasicTabs() {
         <TabContext value={value}>
           <Box sx={tabStyle}>
             <TabList onChange={handleChange}>
-              <Tab label={TAB_LABELS.CHART + " NEW"} value="0" />
-              {/* <Tab label={TAB_LABELS.CHART} value="1" /> */}
-              {/* <Tab label="Master Data" value="2" /> */}
+              <Tab label={TAB_LABELS.CHART} value="0" />
+              <Tab label={TAB_LABELS.MASTER} value="1" />
               <Tab label={TAB_LABELS.DATA} value="2" />
             </TabList>
           </Box>
@@ -127,22 +126,9 @@ function BasicTabs() {
                 </Grid>
               </Grid>
             </TabPanel>
-            {/* <TabPanel value="1">
-              <Grid container spacing={2}>
-                <Grid item xs={10}>
-                  <BubbleChart propsData={data} />
-                </Grid>
-                <Grid item xs={2}>
-                  <Setting />
-                  {dataTooltip?.elementData && (
-                    <TooltipPanel elementData={dataTooltip} />
-                  )}
-                </Grid>
-              </Grid>
-            </TabPanel> */}
-            {/* <TabPanel value="2">
-              <MasterDataForm />
-            </TabPanel> */}
+            <TabPanel value="1">
+              <MasterDataForm dataSets={data} updateData={updateData} />
+            </TabPanel>
             <TabPanel value="2">
               <DataTable data={data} onUpdate={updateData} />
             </TabPanel>
