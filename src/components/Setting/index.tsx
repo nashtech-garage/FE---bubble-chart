@@ -56,7 +56,7 @@ function Setting({ dataSets, captureChart, updateColor, chartColor }: any) {
   const handleOpen = () => {
     setOpen(true);
     // setTypes(chartColor.types);
-    setType(chartColor.types[0].type);
+    // setType(chartColor.types[0].type);
     setColor(chartColor.types[0].color);
     setDotted(chartColor.dotted);
     setTitle(chartColor.label.title);
@@ -160,9 +160,12 @@ function Setting({ dataSets, captureChart, updateColor, chartColor }: any) {
   };
 
   useEffect(() => {
-    const filtered = dataSets.filter((i: any) => i.data.length);
+    const filtered = dataSets.sort(
+      (a: any, b: any) => b.data.length - a.data.length
+    );
     const types = filtered.map((i: any) => ({ type: i.type, color: i.color }));
     setTypes(types);
+    setType(types[0].type);
   }, [dataSets]);
 
   return (

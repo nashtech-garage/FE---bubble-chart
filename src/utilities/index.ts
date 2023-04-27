@@ -1,3 +1,5 @@
+import { DataType } from "../models";
+
 export const checkVal = (val: number, min: number, max: number) => {
   let temp = val;
   if (val > max) temp = max;
@@ -43,4 +45,13 @@ export const wrapText = (
     }
   }
   context.fillText(line, x, y);
+};
+
+export const containsObject = (obj: DataType, list: DataType[]) => {
+  for (let i = 0; i < list.length; i++) {
+    if (list[i].type.toLowerCase() === obj.type.toLowerCase()) {
+      return true;
+    }
+  }
+  return false;
 };
