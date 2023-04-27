@@ -52,6 +52,7 @@ const BubbleChartHTML = ({ dataSets, chartColor }: BubbleChartHTMLProps) => {
         padding: "30px",
         position: "relative",
         zIndex: "1",
+        overflow: "hidden",
       }}
     >
       <Box

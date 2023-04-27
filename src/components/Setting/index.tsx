@@ -11,6 +11,7 @@ import {
   SelectChangeEvent,
   Divider,
   Grid,
+  Paper,
 } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
@@ -42,7 +43,7 @@ function Setting({ dataSets, captureChart, updateColor, chartColor }: any) {
     setOpen(true);
     // setTypes(chartColor.types);
     // setType(chartColor.types[0].type);
-    setColor(chartColor.types[0].color);
+    // setColor(chartColor.types[0].color);
     setDotted(chartColor.dotted);
     setTitle(chartColor.label.title);
     setGotSkill(chartColor.label.gotSkill);
@@ -151,6 +152,7 @@ function Setting({ dataSets, captureChart, updateColor, chartColor }: any) {
     const types = filtered.map((i: any) => ({ type: i.type, color: i.color }));
     setTypes(types);
     setType(types[0].type);
+    setColor(types[0].color);
   }, [chartColor.types, dataSets]);
 
   return (
@@ -207,7 +209,7 @@ function Setting({ dataSets, captureChart, updateColor, chartColor }: any) {
             <Divider />
             <Grid
               container
-              spacing={3}
+              spacing={1}
               direction="row"
               justifyContent="space-between"
             >
@@ -216,7 +218,7 @@ function Setting({ dataSets, captureChart, updateColor, chartColor }: any) {
                   container
                   direction="row"
                   rowSpacing={0}
-                  columnSpacing={{ xs: 4 }}
+                  columnSpacing={{ xs: 1 }}
                 >
                   <Grid item xs={12}>
                     <Typography variant="h6" component="h3" my={2}>
@@ -224,56 +226,62 @@ function Setting({ dataSets, captureChart, updateColor, chartColor }: any) {
                     </Typography>
                   </Grid>
                   <Grid item xs={5}>
-                    <Box sx={lineStyle}>
-                      Title:{" "}
-                      <ColorPicker
-                        style={colorPickerStyled}
-                        onComplete={(e) => onCompleteChangeColor(e, "title")}
-                        defaultColor={title}
-                      />
-                    </Box>
-                    <Box style={lineStyle}>
-                      Got skill:{" "}
-                      <ColorPicker
-                        style={colorPickerStyled}
-                        onComplete={(e) => onCompleteChangeColor(e, "gotSkill")}
-                        defaultColor={gotSkill}
-                      />
-                    </Box>
-                    <Box style={lineStyle}>
-                      Plan:{" "}
-                      <ColorPicker
-                        style={colorPickerStyled}
-                        onComplete={(e) => onCompleteChangeColor(e, "plan")}
-                        defaultColor={plan}
-                      />
-                    </Box>
+                    <Paper variant="outlined" sx={{ padding: "8px" }}>
+                      <Box sx={lineStyle}>
+                        Title:{" "}
+                        <ColorPicker
+                          style={colorPickerStyled}
+                          onComplete={(e) => onCompleteChangeColor(e, "title")}
+                          defaultColor={title}
+                        />
+                      </Box>
+                      <Box style={lineStyle}>
+                        Got skill:{" "}
+                        <ColorPicker
+                          style={colorPickerStyled}
+                          onComplete={(e) =>
+                            onCompleteChangeColor(e, "gotSkill")
+                          }
+                          defaultColor={gotSkill}
+                        />
+                      </Box>
+                      <Box style={lineStyle}>
+                        Plan:{" "}
+                        <ColorPicker
+                          style={colorPickerStyled}
+                          onComplete={(e) => onCompleteChangeColor(e, "plan")}
+                          defaultColor={plan}
+                        />
+                      </Box>
+                    </Paper>
                   </Grid>
                   <Grid item xs={7}>
-                    <Box style={lineStyle}>
-                      Added (YTD):{" "}
-                      <ColorPicker
-                        style={colorPickerStyled}
-                        onComplete={(e) => onCompleteChangeColor(e, "YTD")}
-                        defaultColor={ytd}
-                      />
-                    </Box>
-                    <Box style={lineStyle}>
-                      Added (LM) On Going:{" "}
-                      <ColorPicker
-                        style={colorPickerStyled}
-                        onComplete={(e) => onCompleteChangeColor(e, "LMOG")}
-                        defaultColor={lmOG}
-                      />
-                    </Box>
-                    <Box style={lineStyle}>
-                      Added (LM) Finished:{" "}
-                      <ColorPicker
-                        style={colorPickerStyled}
-                        onComplete={(e) => onCompleteChangeColor(e, "LMFN")}
-                        defaultColor={lmFN}
-                      />
-                    </Box>
+                    <Paper variant="outlined" sx={{ padding: "8px" }}>
+                      <Box style={lineStyle}>
+                        Added (YTD):{" "}
+                        <ColorPicker
+                          style={colorPickerStyled}
+                          onComplete={(e) => onCompleteChangeColor(e, "YTD")}
+                          defaultColor={ytd}
+                        />
+                      </Box>
+                      <Box style={lineStyle}>
+                        Added (LM) On Going:{" "}
+                        <ColorPicker
+                          style={colorPickerStyled}
+                          onComplete={(e) => onCompleteChangeColor(e, "LMOG")}
+                          defaultColor={lmOG}
+                        />
+                      </Box>
+                      <Box style={lineStyle}>
+                        Added (LM) Finished:{" "}
+                        <ColorPicker
+                          style={colorPickerStyled}
+                          onComplete={(e) => onCompleteChangeColor(e, "LMFN")}
+                          defaultColor={lmFN}
+                        />
+                      </Box>
+                    </Paper>
                   </Grid>
                 </Grid>
               </Grid>
@@ -282,26 +290,26 @@ function Setting({ dataSets, captureChart, updateColor, chartColor }: any) {
                 <Typography variant="h6" component="h3" my={2}>
                   Dotted Color
                 </Typography>
-                <Box style={lineStyle}>
-                  Default:{" "}
-                  <ColorPicker
-                    style={colorPickerStyled}
-                    onComplete={(e) => onCompleteChangeColor(e, "dotted")}
-                    defaultColor={dotted}
-                  />
-                </Box>
-                <Box style={lineStyle}>
-                  Highlight:{" "}
-                  <ColorPicker
-                    style={colorPickerStyled}
-                    onComplete={(e) => onCompleteChangeColor(e, "highlight")}
-                    defaultColor={highlight}
-                  />
-                </Box>
+                <Paper variant="outlined" sx={{ padding: "8px" }}>
+                  <Box style={lineStyle}>
+                    Default:{" "}
+                    <ColorPicker
+                      style={colorPickerStyled}
+                      onComplete={(e) => onCompleteChangeColor(e, "dotted")}
+                      defaultColor={dotted}
+                    />
+                  </Box>
+                  <Box style={lineStyle}>
+                    Highlight:{" "}
+                    <ColorPicker
+                      style={colorPickerStyled}
+                      onComplete={(e) => onCompleteChangeColor(e, "highlight")}
+                      defaultColor={highlight}
+                    />
+                  </Box>
+                </Paper>
               </Grid>
             </Grid>
-
-            <Divider />
           </Box>
         </Box>
       </Modal>
