@@ -1,10 +1,18 @@
 import { Box, Button, Typography } from "@mui/material";
 import { colorIndicator } from "./styles";
+import { useState } from "react";
 
 const LegendButton = ({ dataSet, handleToggle, chartColor }: any) => {
   const nodeColor = chartColor.types.find((i: any) => i.type === dataSet.type);
+  const [isHide, setHide] = useState<boolean>(false);
+  const handleClick = () => {
+    handleToggle(dataSet.type);
+    setHide(!isHide);
+  };
   return (
-    <Box sx={{ padding: "0 0.5rem" }}>
+    <Box
+      sx={{ padding: "0 0.5rem", backgroundColor: "rgba(255, 255, 255, 0.7)" }}
+    >
       <Button
         sx={{
           color: "black",
@@ -13,10 +21,21 @@ const LegendButton = ({ dataSet, handleToggle, chartColor }: any) => {
           justifyContent: "flex-start",
         }}
         type="button"
-        onClick={() => handleToggle(dataSet.type)}
+        onClick={handleClick}
       >
-        <Box sx={{ ...colorIndicator, backgroundColor: nodeColor.color }}></Box>
-        <Typography>{dataSet.type}</Typography>
+        <Typography
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            textDecoration: isHide ? "line-through" : "unset",
+            "&:before": {
+              ...colorIndicator,
+              backgroundColor: nodeColor.color,
+            },
+          }}
+        >
+          {dataSet.type}
+        </Typography>
       </Button>
     </Box>
   );
