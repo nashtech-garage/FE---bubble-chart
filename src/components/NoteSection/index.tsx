@@ -14,11 +14,11 @@ const NoteSection = ({ chartColor }: any) => {
   const currentYear = new Date().getFullYear();
 
   const displayContents = [
-    "Got skill",
-    "Added last month (ongoing)",
-    "Added last month (finished)",
-    `Added in ${currentYear}`,
-    `Target to add more till the end of ${currentYear}`,
+    "(x) Got skill",
+    "(x) Added last month (ongoing)",
+    "(x) Added last month (finished)",
+    `(x) Added in ${currentYear}`,
+    `(x) Target to add more till the end of ${currentYear}`,
   ];
 
   const colorArrays = [
