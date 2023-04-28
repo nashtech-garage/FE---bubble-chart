@@ -92,7 +92,7 @@ export default function BubbleNode({
         ...nodeStyle,
         opacity: getOpacity(),
         borderColor: dottedColor,
-        borderWidth: "1px",
+        borderWidth: `${chartColor.borderWidth}px`,
         left: `${bubbleData.x}%`,
         bottom: `${bubbleData.y}%`,
         padding: `${drawRadius}px`,

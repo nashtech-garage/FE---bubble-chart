@@ -20,6 +20,8 @@ import ColorPicker from "../ColorPicker";
 import { LOCAL_STORAGE } from "../../constants";
 import { colorPickerStyled, lineStyle, style } from "./styles";
 
+const widthOptions = ["1", "2", "3", "4", "5"];
+
 function Setting({ dataSets, captureChart, updateColor, chartColor }: any) {
   const [open, setOpen] = useState<boolean>(false);
   //Varible of chart color
@@ -34,9 +36,11 @@ function Setting({ dataSets, captureChart, updateColor, chartColor }: any) {
   const [lmOG, setLMOG] = useState<string>("");
   const [lmFN, setLMFN] = useState<string>("");
   const [highlight, setHighlight] = useState<string>("");
+  const [borderWidth, setBorderWidth] = useState<string>("");
 
   const handleOpen = () => {
     setOpen(true);
+    setBorderWidth(chartColor.borderWidth);
     setDotted(chartColor.dotted);
     setTitle(chartColor.label.title);
     setGotSkill(chartColor.label.gotSkill);
@@ -127,6 +131,12 @@ function Setting({ dataSets, captureChart, updateColor, chartColor }: any) {
         newColor = { ...chartColor, highlight: e.hex };
         break;
       }
+      case "width": {
+        const value = e.target.value;
+        setBorderWidth(value);
+        newColor = { ...chartColor, borderWidth: value };
+        break;
+      }
     }
     return updateColor(newColor);
   };
@@ -211,7 +221,7 @@ function Setting({ dataSets, captureChart, updateColor, chartColor }: any) {
               direction="row"
               justifyContent="space-between"
             >
-              <Grid item xs={9}>
+              <Grid item xs={12}>
                 <Grid
                   container
                   direction="row"
@@ -284,7 +294,7 @@ function Setting({ dataSets, captureChart, updateColor, chartColor }: any) {
                 </Grid>
               </Grid>
 
-              <Grid item xs={3}>
+              <Grid item xs={6}>
                 <Typography variant="h6" component="h3" my={2}>
                   Dotted Color
                 </Typography>
@@ -304,6 +314,29 @@ function Setting({ dataSets, captureChart, updateColor, chartColor }: any) {
                       onComplete={(e) => onCompleteChangeColor(e, "highlight")}
                       defaultColor={highlight}
                     />
+                  </Box>
+                  <Box style={lineStyle}>
+                    Width:{" "}
+                    <FormControl style={{ width: "50%" }}>
+                      <InputLabel id="demo-simple-select-label">
+                        In pixel
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={borderWidth}
+                        label="Width"
+                        onChange={(e) => onCompleteChangeColor(e, "width")}
+                      >
+                        {widthOptions.map((option, idx) => {
+                          return (
+                            <MenuItem key={idx} value={option}>
+                              {option}
+                            </MenuItem>
+                          );
+                        })}
+                      </Select>
+                    </FormControl>
                   </Box>
                 </Paper>
               </Grid>

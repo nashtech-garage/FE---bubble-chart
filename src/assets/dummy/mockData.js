@@ -9,6 +9,7 @@ export const mockChartColor = {
     { type: "Enhance", color: "rgba(255, 242, 204, 1)" },
     { type: "R&D", color: "rgba(251, 229, 214, 1)" },
   ],
+  borderWidth: "1",
   dotted: "black",
   highlight: "red",
   label: {
