@@ -3,6 +3,7 @@ import { IconButton } from "@mui/material";
 import { DataType } from "../../models";
 import moment from "moment";
 import { generateExportData } from "../../transformData";
+import { LOCAL_STORAGE } from "../../constants";
 
 export interface ExportButtonProps {
   data: DataType[];
@@ -13,8 +14,8 @@ export default function ExportButton({ data }: ExportButtonProps) {
     const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
       JSON.stringify({
         bubble_data: generateExportData(data),
-        title: "Test",
-        year: "2023",
+        title: localStorage.getItem(LOCAL_STORAGE.TITLE),
+        year: localStorage.getItem(LOCAL_STORAGE.YEAR),
       })
     )}`;
     const link = document.createElement("a");
