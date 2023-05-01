@@ -1,7 +1,7 @@
-import FileUploadIcon from "@mui/icons-material/FileUpload";
-import { IconButton } from "@mui/material";
+import { Button, IconButton } from "@mui/material";
+import withFields from "../../hocs/withFields";
 
-export default function ImportButton({ fileImport, isJSON }: any) {
+function ImportButton({ fileImport, isJSON, onChange, file }: any) {
   const handleJsonFile = (event: any) => {
     const file = event.target.files[0] || "";
     const isJsonFile = file && file.name.endsWith(".json");
@@ -19,9 +19,10 @@ export default function ImportButton({ fileImport, isJSON }: any) {
     reader.onload = (e: any) => {
       const jsonString = e.target.result;
       const jsonData = JSON.parse(jsonString);
+
       // Use the imported JSON data
       isJSON(isJsonFile);
-      fileImport(jsonData);
+      onChange(file, jsonData);
     };
 
     reader.readAsText(file);
@@ -29,7 +30,8 @@ export default function ImportButton({ fileImport, isJSON }: any) {
 
   return (
     <>
-      <label htmlFor="file">
+      <Button variant="contained" component="label">
+        Upload
         <input
           id="file"
           type="file"
@@ -37,10 +39,8 @@ export default function ImportButton({ fileImport, isJSON }: any) {
           style={{ position: "fixed", top: "-100em" }}
           onChange={handleJsonFile}
         />
-        <IconButton component="span" aria-label="import">
-          <FileUploadIcon />
-        </IconButton>
-      </label>
+      </Button>
     </>
   );
 }
+export default withFields(ImportButton);

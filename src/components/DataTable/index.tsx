@@ -11,12 +11,16 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import { randomId } from "@mui/x-data-grid-generator";
 import { HEADERNAME, LOCAL_STORAGE, NEW_ITEM } from "../../constants";
-import { DataChildType, DataTableProps, DataType } from "../../models";
+import { DataChildType, DataTableProps } from "../../models";
 import { CustomToolbar } from "./Toolbar";
 import { StyledDataGrid } from "./styles";
 import { defineColumns } from "./column";
-import { checkVal } from "../../utilities";
-import { generateChartData, generateGridRows } from "../../transformData";
+import { checkVal, updateLocalStorage } from "../../utilities";
+import {
+  generateChartData,
+  generateGridRows,
+  generateGridRowsFromImported,
+} from "../../transformData";
 
 export default function DataTable({ data, onUpdate }: DataTableProps) {
   const [rows, setRows] = useState<DataChildType[]>(generateGridRows(data));
@@ -41,13 +45,17 @@ export default function DataTable({ data, onUpdate }: DataTableProps) {
     setIsUpdate(true);
   }, []);
 
-  const handleImport = useCallback((data: DataType[]) => {
-    setRows(generateGridRows(data));
-    localStorage.setItem(
-      LOCAL_STORAGE.CHART,
-      JSON.stringify(generateChartData(data))
-    );
-    setIsUpdate(true);
+  const handleImport = useCallback((data: any) => {
+    if (data.bubbleData) {
+      setRows(generateGridRowsFromImported(data));
+      localStorage.setItem(
+        LOCAL_STORAGE.CHART,
+        JSON.stringify(generateChartData(data))
+      );
+      setIsUpdate(true);
+    }
+    data.year && updateLocalStorage(LOCAL_STORAGE.YEAR, data.year);
+    data.title && updateLocalStorage(LOCAL_STORAGE.TITLE, data.title);
   }, []);
 
   const clear = () => {

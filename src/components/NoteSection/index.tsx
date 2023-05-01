@@ -1,6 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import { noteSection } from "./styles";
-import { COLOR_CHART_ANNOTATIONS } from "../../constants";
+import { COLOR_CHART_ANNOTATIONS, LOCAL_STORAGE } from "../../constants";
+import { useEffect, useState } from "react";
 
 const NoteSection = ({ chartColor }: any) => {
   const gotSkillColor =
@@ -13,12 +14,14 @@ const NoteSection = ({ chartColor }: any) => {
   const planColor = chartColor?.label.plan || COLOR_CHART_ANNOTATIONS.PLAN;
   const currentYear = new Date().getFullYear();
 
+  const [year, setYear] = useState<string>(currentYear.toString());
+
   const displayContents = [
     "(x) Got skill",
     "(x) Added last month (ongoing)",
     "(x) Added last month (finished)",
-    `(x) Added in ${currentYear}`,
-    `(x) Target to add more till the end of ${currentYear}`,
+    `(x) Added in  ${year}`,
+    `(x) Target to add more till the end of  ${year}`,
   ];
 
   const colorArrays = [
@@ -28,7 +31,13 @@ const NoteSection = ({ chartColor }: any) => {
     ytdColor,
     planColor,
   ];
-
+  useEffect(() => {
+    const localStorageYear = localStorage.getItem(LOCAL_STORAGE.YEAR);
+    if (typeof localStorageYear !== "string") {
+      localStorage.setItem(LOCAL_STORAGE.YEAR, currentYear.toString());
+    }
+    localStorageYear && setYear(localStorageYear);
+  }, [year]);
   return (
     <Box sx={noteSection}>
       {displayContents.map((content: string, index) => (

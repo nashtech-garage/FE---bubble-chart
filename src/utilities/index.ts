@@ -55,3 +55,18 @@ export const containsObject = (obj: DataType, list: DataType[]) => {
   }
   return false;
 };
+export const updateLocalStorage = (key: any, newValue: string) => {
+  const oldValue = localStorage.getItem(key);
+  localStorage.setItem(key, newValue);
+
+  const storageEvent = new StorageEvent("storage", {
+    key: key,
+    oldValue: oldValue,
+    newValue: newValue,
+    url: window.location.href,
+    storageArea: localStorage,
+  });
+
+  window.dispatchEvent(storageEvent);
+}
+

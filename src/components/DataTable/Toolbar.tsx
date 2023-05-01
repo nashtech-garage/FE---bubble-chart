@@ -1,11 +1,22 @@
-import { Button, Alert } from "@mui/material";
+import {
+  Button,
+  Alert,
+  IconButton,
+  Box,
+  Modal,
+  Typography,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 import {
   GridSlotsComponentsProps,
   GridToolbarContainer,
 } from "@mui/x-data-grid";
 import ExportButton from "../ExportButton";
 import ImportButton from "../ImportButton";
-
 export function CustomToolbar(
   props: NonNullable<GridSlotsComponentsProps["toolbar"]>
 ) {
@@ -18,6 +29,7 @@ export function CustomToolbar(
           fileImport={props.handleImport}
           isJSON={(isJSON: boolean) => props.setIsJSON(!isJSON)}
         />
+
         <Button onClick={props.clear}>Clear data</Button>
       </GridToolbarContainer>
       {props.isJSON && (

@@ -11,7 +11,11 @@ export interface ExportButtonProps {
 export default function ExportButton({ data }: ExportButtonProps) {
   const exportData = () => {
     const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
-      JSON.stringify(generateExportData(data))
+      JSON.stringify({
+        bubble_data: generateExportData(data),
+        title: "Test",
+        year: "2023",
+      })
     )}`;
     const link = document.createElement("a");
     link.href = jsonString;

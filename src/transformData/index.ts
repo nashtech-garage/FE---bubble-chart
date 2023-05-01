@@ -1,7 +1,8 @@
 import { DataChildType, DataChildTypeExt, DataType } from "../models";
 
-const generateChartData = (data: DataType[]) =>
-  data.map((item: DataType) => {
+const generateChartData = (data: any) => {
+  const bubbleData = data.bubbleData ? data.bubbleData : data
+  return bubbleData.map((item: DataType) => {
     const mapped = item.data.map((data: DataChildType) => ({
       ...data,
       highlighted: data.LM > 0 ? true : false,
@@ -11,6 +12,8 @@ const generateChartData = (data: DataType[]) =>
       data: mapped,
     };
   });
+}
+
 
 const generateExportData = (data: DataType[]) =>
   data.map((item: DataType) => ({
@@ -21,6 +24,19 @@ const generateExportData = (data: DataType[]) =>
 const generateGridRows = (data: DataType[]) => {
   let rows: DataChildType[] = [];
   data.map((item) =>
+    item.data.map((dataItem: DataChildType) =>
+      rows.push({
+        ...dataItem,
+        type: item.type,
+      })
+    )
+  );
+  return rows;
+};
+const generateGridRowsFromImported = (data: any) => {
+  let rows: DataChildType[] = [];
+
+  data.bubbleData.map((item: any) =>
     item.data.map((dataItem: DataChildType) =>
       rows.push({
         ...dataItem,
@@ -50,4 +66,5 @@ export {
   generateExportData,
   generateGridRows,
   generateChartDataExt,
+  generateGridRowsFromImported
 };

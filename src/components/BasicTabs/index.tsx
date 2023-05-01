@@ -24,6 +24,7 @@ function BasicTabs() {
   const [data, setData] = useState<DataType[]>([]);
   const [dataTooltip, setDataTooltip] = useState<ElementData>();
   const [chartColor, setChartColor] = useState<any>(null);
+  const [info, setInfo] = useState<any>(null);
 
   const handleChange = (event: any, newValue: string) => {
     localStorage.setItem(LOCAL_STORAGE.ACTIVE_TAB, newValue);
@@ -31,7 +32,6 @@ function BasicTabs() {
   };
 
   const updateData = (data: DataType[]) => {
-    console.log("z");
     localStorage.setItem(LOCAL_STORAGE.CHART, JSON.stringify(data));
     setData(data);
     //reset tooltip panel when updated data
@@ -110,6 +110,7 @@ function BasicTabs() {
     }
     localStorageActiveTab && setValue(localStorageActiveTab);
   }, []);
+
   return (
     <>
       <Heading />
